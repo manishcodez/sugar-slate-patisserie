@@ -17,7 +17,7 @@ export function useFocusTrap(active) {
 
     const focusables = () =>
       [...container.querySelectorAll(FOCUSABLE)].filter(
-        (el) => !el.hasAttribute('disabled') && el.offsetParent !== null,
+        (el) => !el.hasAttribute('disabled') && el.getClientRects().length > 0,
       )
 
     const timer = setTimeout(() => {
@@ -57,10 +57,27 @@ export function useFocusTrap(active) {
 export function useScrollLock(locked) {
   useEffect(() => {
     if (!locked) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+
+    const scrollY = window.scrollY
+    const { style } = document.body
+    const prev = {
+      overflow: style.overflow,
+      position: style.position,
+      top: style.top,
+      width: style.width,
+    }
+
+    style.overflow = 'hidden'
+    style.position = 'fixed'
+    style.top = `-${scrollY}px`
+    style.width = '100%'
+
     return () => {
-      document.body.style.overflow = prev
+      style.overflow = prev.overflow
+      style.position = prev.position
+      style.top = prev.top
+      style.width = prev.width
+      window.scrollTo(0, scrollY)
     }
   }, [locked])
 }

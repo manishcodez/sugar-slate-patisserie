@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ShoppingBag, User } from 'lucide-react'
 import { NAV_LINKS } from '../data/constants'
@@ -31,6 +32,22 @@ export default function Header() {
   }
   const drawerRef = useFocusTrap(mobileOpen)
   useScrollLock(mobileOpen)
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileOpen])
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onHashChange = () => setMobileOpen(false)
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [mobileOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -138,115 +155,123 @@ export default function Header() {
 
             <button
               type="button"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] text-cocoa xl:hidden"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
+              className="flex h-9 w-9 shrink-0 touch-manipulation items-center justify-center rounded-[var(--radius-sm)] text-cocoa xl:hidden"
+              onClick={() => setMobileOpen((open) => !open)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
             >
-              <Menu size={22} />
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
+      </header>
 
+      {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
               ref={drawerRef}
-              className="fixed inset-0 z-[95] xl:hidden"
+              id="mobile-navigation"
+              className="fixed inset-0 z-[250] flex xl:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div
-                className="absolute inset-0 bg-espresso/40 backdrop-blur-sm"
+              <button
+                type="button"
+                className="min-w-0 flex-1 touch-manipulation bg-espresso/50 backdrop-blur-sm"
                 onClick={() => setMobileOpen(false)}
-                aria-hidden="true"
+                aria-label="Close menu"
               />
-              <motion.div
-                className="absolute right-0 top-0 flex h-full w-[min(100%,300px)] flex-col bg-cream shadow-luxury"
+              <motion.aside
+                className="flex h-full w-[min(88vw,320px)] max-w-full flex-col bg-cream shadow-luxury"
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 32 }}
               >
-              <div className="flex h-14 items-center justify-between px-4">
-                <span className="font-display text-base font-semibold text-cocoa">
-                  Sugar & Slate
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-blush text-cocoa"
-                  aria-label="Close menu"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 py-4" aria-label="Mobile navigation">
-                {NAV_LINKS.map((link, i) => (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
+                <div className="flex h-14 shrink-0 items-center justify-between border-b border-blush px-4">
+                  <span className="font-display text-base font-semibold text-cocoa">
+                    Menu
+                  </span>
+                  <button
+                    type="button"
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-[var(--radius-sm)] px-3 py-2.5 font-display text-base text-cocoa transition-colors hover:bg-blush hover:text-caramel"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
+                    className="flex h-9 w-9 touch-manipulation items-center justify-center rounded-full bg-blush text-cocoa"
+                    aria-label="Close menu"
                   >
-                    {link.label}
-                  </motion.a>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: NAV_LINKS.length * 0.05 }}
-                  className="mt-4 flex flex-col gap-2 border-t border-blush pt-4"
+                    <X size={20} />
+                  </button>
+                </div>
+                <nav
+                  className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto overscroll-contain px-3 py-3"
+                  aria-label="Mobile navigation"
                 >
-                  <Button href="#custom-cakes" onClick={() => setMobileOpen(false)} className="!py-2 !text-sm">
-                    Order Now
-                  </Button>
-                  {ready && user ? (
-                    <Button
-                      variant="secondary"
-                      className="!py-2 !text-sm"
-                      onClick={() => {
-                        setMobileOpen(false)
-                        openPortal('dashboard')
-                      }}
+                  {NAV_LINKS.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="rounded-[var(--radius-sm)] px-3 py-3 font-display text-base text-cocoa transition-colors active:bg-blush active:text-caramel"
                     >
-                      <User size={16} className="mr-2 inline" />
-                      My Account
+                      {link.label}
+                    </a>
+                  ))}
+                  <div className="mt-3 flex flex-col gap-2 border-t border-blush pt-4">
+                    <Button
+                      href="#custom-cakes"
+                      onClick={() => setMobileOpen(false)}
+                      className="w-full !py-2.5 !text-sm"
+                    >
+                      Order Now
                     </Button>
-                  ) : (
-                    <div className="flex gap-2">
+                    {ready && user ? (
                       <Button
                         variant="secondary"
-                        className="flex-1 !py-2 !text-sm"
+                        className="w-full !py-2.5 !text-sm"
                         onClick={() => {
                           setMobileOpen(false)
-                          openLogin()
+                          openPortal('dashboard')
                         }}
                       >
-                        Login
+                        <User size={16} className="mr-2 inline" />
+                        My Account
                       </Button>
-                      <Button
-                        className="flex-1 !py-2 !text-sm"
-                        onClick={() => {
-                          setMobileOpen(false)
-                          openSignup()
-                        }}
-                      >
-                        Sign Up
-                      </Button>
-                    </div>
-                  )}
-                </motion.div>
-              </nav>
-              </motion.div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Button
+                          variant="secondary"
+                          className="flex-1 !py-2.5 !text-sm"
+                          onClick={() => {
+                            setMobileOpen(false)
+                            openLogin()
+                          }}
+                        >
+                          Login
+                        </Button>
+                        <Button
+                          className="flex-1 !py-2.5 !text-sm"
+                          onClick={() => {
+                            setMobileOpen(false)
+                            openSignup()
+                          }}
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </nav>
+              </motion.aside>
             </motion.div>
           )}
-        </AnimatePresence>
-      </header>
+        </AnimatePresence>,
+        document.body,
+      )}
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialTab={authTab} />
       <CartDrawer />
     </>
