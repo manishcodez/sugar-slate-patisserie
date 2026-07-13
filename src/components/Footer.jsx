@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Clock, ArrowRight, Loader2, Phone } from 'lucide-react'
-import { BAKERY, NAV_LINKS } from '../data/constants'
+import { BAKERY, NAV_LINKS, FOUNDER } from '../data/constants'
 import { isValidEmail } from '../utils/validation'
 import { subscribeNewsletterApi } from '../services/api/newsletterApi'
-import { FacebookIcon, PinterestIcon, InstagramIcon } from './ui/SocialIcons'
+import { FacebookIcon, PinterestIcon, InstagramIcon, GitHubIcon, LinkedInIcon } from './ui/SocialIcons'
 
 const bakerySocial = [
   { icon: InstagramIcon, href: BAKERY.social.instagram, label: 'Instagram' },
@@ -180,7 +180,39 @@ export default function Footer() {
       </div>
 
       <div className="relative z-10 border-t border-cream/10">
-        <div className="section-container mx-auto flex flex-col items-center justify-between gap-3 px-5 py-6 text-center text-xs text-cream/50 md:flex-row md:px-8 md:text-left">
+        <div className="section-container mx-auto flex flex-col items-center gap-5 px-5 py-6 text-center text-xs text-cream/50 md:px-8">
+          <div>
+            <p className="font-medium text-cream/80">
+              Founded by <span className="text-champagne">{FOUNDER.name}</span>
+            </p>
+            <p className="mt-1 text-cream/45">
+              {FOUNDER.title} · {FOUNDER.brand}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm">
+              <a
+                href={`mailto:${FOUNDER.email}`}
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
+              >
+                <Mail size={14} /> {FOUNDER.email}
+              </a>
+              <a
+                href={FOUNDER.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
+              >
+                <GitHubIcon size={14} /> GitHub
+              </a>
+              <a
+                href={FOUNDER.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
+              >
+                <LinkedInIcon size={14} /> LinkedIn
+              </a>
+            </div>
+          </div>
           <p>© 2026 Sugar & Slate Patisserie. All Rights Reserved.</p>
         </div>
       </div>

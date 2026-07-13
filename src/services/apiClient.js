@@ -52,11 +52,32 @@ export async function apiRequest(endpoint, options = {}) {
     if (token) reqHeaders.Authorization = `Bearer ${token}`
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...rest,
-    headers: reqHeaders,
-    body: body instanceof FormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
-  })
+  const controller = new AbortController()
+  const timeoutMs = 90000
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...rest,
+      headers: reqHeaders,
+      signal: controller.signal,
+      body: body instanceof FormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
+    })
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new ApiError(
+        'Server is waking up (free hosting). Open the health link, wait 1 minute, then try again.',
+        0,
+      )
+    }
+    throw new ApiError(
+      err.message || 'Cannot reach server. Wake the backend first, then retry login.',
+      0,
+    )
+  } finally {
+    clearTimeout(timeoutId)
+  }
 
   const contentType = response.headers.get('content-type') || ''
   const data = contentType.includes('application/json')

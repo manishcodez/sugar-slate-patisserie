@@ -1,4 +1,8 @@
-export const DEV_LINKS = {
+export const FOUNDER = {
+  name: 'Rupanjali Kumari',
+  title: 'Founder & Head Patissier',
+  brand: 'CodeWithRupanjali',
+  bio: 'French patisserie technique meets Indian celebration — every cake from her Mirzamurad studio is crafted with love.',
   email: 'rupanjalikumari264@gmail.com',
   github: 'https://github.com/CodeWithRupanjali',
   linkedin: 'https://www.linkedin.com/in/codewithrupanjali',

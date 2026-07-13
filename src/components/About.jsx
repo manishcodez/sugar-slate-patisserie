@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { IMAGES } from '../data/images'
+import { FOUNDER } from '../data/constants'
 import { SectionHeading, CurtainReveal, ScrollReveal, StaggerChildren, StaggerItem } from './ui/Animations'
 
 const STATS = [
@@ -87,14 +88,13 @@ export default function About() {
               <p className="text-lg leading-relaxed">
                 Sugar & Slate Patisserie was born from a simple belief: that every
                 celebration deserves a centerpiece as extraordinary as the moment
-                itself. Founded in our Mirzamurad studio in Varanasi, our patisserie has grown
-                into a destination for discerning clients who seek the perfect union of
-                Indian celebration culture and refined French technique.
+                itself. Founded by <strong className="text-cocoa">{FOUNDER.name}</strong> in our
+                Mirzamurad studio in Varanasi, our patisserie has grown into a destination
+                for discerning clients who seek the perfect union of Indian celebration
+                culture and refined French technique.
               </p>
               <p>
-                Our pastry chefs train in classical French techniques while drawing deeply
-                from India's dessert heritage. We source Kashmiri saffron, Alphonso mango,
-                premium cashews, and Belgian chocolate to ensure every bite tells a story of quality.
+                {FOUNDER.bio}
               </p>
             </div>
 
