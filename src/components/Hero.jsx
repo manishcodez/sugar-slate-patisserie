@@ -99,12 +99,21 @@ export default function Hero() {
       >
         <p className="text-xs font-medium text-champagne">{BAKERY.name}</p>
         <p className="mt-1 text-xs text-cream/70">{BAKERY.hours}</p>
-        <a
-          href={`tel:${BAKERY.phone.replace(/\s/g, '')}`}
-          className="mt-2 block text-sm font-medium text-cream/90 transition-colors hover:text-champagne"
-        >
-          {BAKERY.phone}
-        </a>
+        {BAKERY.phone ? (
+          <a
+            href={`tel:${BAKERY.phone.replace(/\s/g, '')}`}
+            className="mt-2 block text-sm font-medium text-cream/90 transition-colors hover:text-champagne"
+          >
+            {BAKERY.phone}
+          </a>
+        ) : (
+          <a
+            href={`mailto:${BAKERY.email}`}
+            className="mt-2 block text-sm font-medium text-cream/90 transition-colors hover:text-champagne"
+          >
+            {BAKERY.email}
+          </a>
+        )}
       </motion.div>
 
       <motion.div

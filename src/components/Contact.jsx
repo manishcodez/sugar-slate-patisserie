@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Clock, AlertCircle, Navigation, Phone } from 'lucide-react'
+import { Mail, Github, Linkedin, MapPin, Clock, AlertCircle, Navigation, Phone } from 'lucide-react'
 import { submitContactApi } from '../services/api/contactApi'
-import { BAKERY, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_DIRECTIONS_URL } from '../data/constants'
+import { BAKERY, FOUNDER, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_DIRECTIONS_URL } from '../data/constants'
 import PincodeChecker from './PincodeChecker'
 import { useCart } from '../context/CartContext'
 import { isValidEmail, isValidPhone } from '../utils/validation'
@@ -139,9 +139,17 @@ export default function Contact() {
   }
 
   const bakeryCards = [
-    { icon: Phone, label: 'Phone', value: BAKERY.phone, href: `tel:${BAKERY.phone.replace(/\s/g, '')}`, copyText: BAKERY.phone, isLucide: true },
+    ...(BAKERY.phone
+      ? [{ icon: Phone, label: 'Phone', value: BAKERY.phone, href: `tel:${BAKERY.phone.replace(/\s/g, '')}`, copyText: BAKERY.phone, isLucide: true }]
+      : []),
     { icon: Mail, label: 'Email', value: BAKERY.email, href: `mailto:${BAKERY.email}`, copyText: BAKERY.email, isLucide: true },
     { icon: MapPin, label: 'Studio', value: 'Mirzamurad, Varanasi', href: GOOGLE_MAPS_DIRECTIONS_URL, copyText: BAKERY.address, isLucide: true },
+  ]
+
+  const founderCards = [
+    { icon: Mail, label: 'Email', value: FOUNDER.email, href: `mailto:${FOUNDER.email}`, copyText: FOUNDER.email, isLucide: true },
+    { icon: Github, label: 'GitHub', value: 'CodeWithRupanjali', href: FOUNDER.github, copyText: FOUNDER.github, isLucide: true },
+    { icon: Linkedin, label: 'LinkedIn', value: 'Rupanjali Kumari', href: FOUNDER.linkedin, copyText: FOUNDER.linkedin, isLucide: true },
   ]
 
   return (
@@ -310,6 +318,20 @@ export default function Contact() {
                 >
                   <Navigation size={16} /> Get Directions
                 </Button>
+              </div>
+
+              <div>
+                <h3 className="font-display text-lg text-cocoa mb-1">
+                  <span className="script-accent text-2xl">{FOUNDER.name}</span>
+                </h3>
+                <p className="mb-3 text-sm text-espresso/70">
+                  {FOUNDER.title} · {FOUNDER.brand}
+                </p>
+                <div className="space-y-3">
+                  {founderCards.map((card) => (
+                    <DevContactCard key={card.label} {...card} onCopied={showToast} />
+                  ))}
+                </div>
               </div>
 
               <div>

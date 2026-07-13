@@ -4,6 +4,9 @@ export const FOUNDER = {
   brand: 'CodeWithRupanjali',
   bio: 'French patisserie technique meets Indian celebration — every cake from her Mirzamurad studio is crafted with love.',
   email: 'rupanjalikumari264@gmail.com',
+  /** Add GF's real WhatsApp number when ready, e.g. '+91 98XXXXXXXX' */
+  phone: '',
+  whatsapp: '',
   github: 'https://github.com/CodeWithRupanjali',
   linkedin: 'https://www.linkedin.com/in/codewithrupanjali',
 }
@@ -12,9 +15,9 @@ export const BAKERY = {
   name: 'Sugar & Slate Patisserie',
   tagline: 'Where French patisserie artistry meets the soul of Indian celebration.',
   address: 'Mirzamurad, Varanasi District, Uttar Pradesh, India - 221307',
-  phone: '+91 98765 43210',
-  email: 'orders@sugarslate.com',
-  whatsapp: '919876543210',
+  phone: FOUNDER.phone,
+  email: FOUNDER.email,
+  whatsapp: FOUNDER.whatsapp || FOUNDER.phone.replace(/\D/g, ''),
   hours: 'Open daily: 9am – 8pm',
   coordinates: {
     lat: 25.3176552,

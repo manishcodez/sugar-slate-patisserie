@@ -160,9 +160,15 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <Phone size={16} className="mt-0.5 shrink-0 text-champagne" />
-                <a href={`tel:${BAKERY.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-champagne">
-                  {BAKERY.phone}
-                </a>
+                {BAKERY.phone ? (
+                  <a href={`tel:${BAKERY.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-champagne">
+                    {BAKERY.phone}
+                  </a>
+                ) : (
+                  <a href={`mailto:${BAKERY.email}`} className="transition-colors hover:text-champagne">
+                    {BAKERY.email}
+                  </a>
+                )}
               </li>
               <li className="flex items-start gap-2.5">
                 <Mail size={16} className="mt-0.5 shrink-0 text-champagne" />
