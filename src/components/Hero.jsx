@@ -15,6 +15,7 @@ const HERO_STATS = [
 ]
 
 const THUMB_SLIDES = HERO_SLIDES.slice(0, 8)
+const DESKTOP_THUMBS = HERO_SLIDES.slice(0, 6)
 
 export default function Hero() {
   const reduced = useReducedMotion()
@@ -73,7 +74,7 @@ export default function Hero() {
       />
 
       {/* Main content */}
-      <div className="section-container relative z-10 mx-auto flex min-h-[100dvh] w-full min-w-0 flex-1 flex-col justify-center px-4 pb-28 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-5 md:px-8 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-24 lg:pt-24 xl:gap-14">
+      <div className="section-container relative z-10 mx-auto flex min-h-[100dvh] w-full min-w-0 flex-1 flex-col justify-center px-4 pb-28 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-5 md:px-8 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-6 lg:pb-20 lg:pt-[5.5rem] xl:gap-8 xl:pt-24">
         {/* Left — content panel */}
         <motion.div
           className="hero-glass mx-auto w-full max-w-xl lg:mx-0 lg:max-w-none"
@@ -81,7 +82,7 @@ export default function Hero() {
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="hero-glass-inner p-5 sm:p-7 md:p-8 lg:p-9">
+          <div className="hero-glass-inner p-5 sm:p-7 md:p-8 lg:p-6 xl:p-8">
             <div className="hero-ornament mb-4" aria-hidden="true">
               <span className="hero-ornament-line" />
               <span className="eyebrow !text-champagne/90">Premium Patisserie · Varanasi</span>
@@ -147,7 +148,7 @@ export default function Hero() {
 
         {/* Right — desktop showcase */}
         <motion.div
-          className="relative hidden lg:block"
+          className="hero-showcase-column relative hidden min-w-0 lg:block"
           initial={reduced ? false : { opacity: 0, x: 32 }}
           animate={reduced ? undefined : { opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -170,13 +171,13 @@ export default function Hero() {
               <span>Signature Creation</span>
             </div>
           </div>
-          <p className="mt-4 text-center font-display text-base text-cream/90">
+          <p className="mt-3 text-center font-display text-sm text-cream/90 xl:text-base">
             {currentSlide.label}
           </p>
 
           {/* Desktop thumbnails */}
-          <div className="mt-5 flex justify-center gap-2">
-            {THUMB_SLIDES.map((slide, i) => {
+          <div className="mt-3 flex flex-wrap justify-center gap-1.5 xl:mt-4 xl:gap-2">
+            {DESKTOP_THUMBS.map((slide) => {
               const slideIndex = HERO_SLIDES.indexOf(slide)
               const isActive = slideIndex === activeSlide
               return (

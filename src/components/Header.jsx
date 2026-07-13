@@ -81,25 +81,22 @@ export default function Header() {
 
   const headerBg = scrolled
     ? 'bg-cream shadow-warm border-b border-rose/30'
-    : 'bg-espresso/25 border-b border-cream/10'
+    : 'header-hero-mode bg-espresso/72 backdrop-blur-md border-b border-cream/15'
 
   const logoBadgeClass = onHero
-    ? 'bg-cream/15 text-cream group-hover:bg-cream group-hover:text-cocoa'
+    ? 'bg-cream/20 text-cream group-hover:bg-cream group-hover:text-cocoa'
     : 'bg-caramel/15 text-cocoa group-hover:bg-caramel group-hover:text-cream'
 
   const logoTextClass = onHero ? 'text-cream' : 'text-cocoa'
-  const navLinkClass = onHero
-    ? 'text-cream/90 hover:text-champagne'
-    : 'text-espresso hover:text-caramel'
 
   const iconBtnClass = onHero
-    ? 'bg-cream/15 text-cream hover:bg-cream hover:text-cocoa'
+    ? 'bg-cream/20 text-cream hover:bg-cream hover:text-cocoa'
     : 'bg-caramel/10 text-cocoa hover:bg-caramel hover:text-cream'
 
   const menuIconClass = onHero ? 'text-cream' : 'text-cocoa'
 
   const loginBtnClass = onHero
-    ? 'text-cream hover:bg-cream/15 hover:text-champagne'
+    ? 'text-cream hover:bg-cream/20 hover:text-champagne'
     : 'text-cocoa hover:bg-blush hover:text-caramel'
 
   return (
@@ -117,12 +114,16 @@ export default function Header() {
             </span>
           </a>
 
-          <nav className="hidden items-center gap-5 xl:flex" aria-label="Main navigation">
+          <nav className="hidden items-center gap-3 lg:flex xl:gap-4" aria-label="Main navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`relative whitespace-nowrap text-xs font-medium tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full ${navLinkClass}`}
+                className={`header-nav-link relative whitespace-nowrap text-[11px] font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-xs ${
+                  onHero
+                    ? 'text-cream hover:text-champagne'
+                    : 'text-espresso hover:text-caramel'
+                }`}
               >
                 {link.label}
               </a>
@@ -173,7 +174,7 @@ export default function Header() {
 
             <button
               type="button"
-              className={`flex h-9 w-9 shrink-0 touch-manipulation items-center justify-center rounded-[var(--radius-sm)] xl:hidden ${menuIconClass}`}
+              className={`flex h-9 w-9 shrink-0 touch-manipulation items-center justify-center rounded-[var(--radius-sm)] lg:hidden ${menuIconClass}`}
               onClick={() => setMobileOpen((open) => !open)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
@@ -191,7 +192,7 @@ export default function Header() {
             <motion.div
               ref={drawerRef}
               id="mobile-navigation"
-              className="fixed inset-0 z-[250] flex xl:hidden"
+              className="fixed inset-0 z-[250] flex lg:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
