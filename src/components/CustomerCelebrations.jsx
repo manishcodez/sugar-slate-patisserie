@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Flame, MessageCircle } from 'lucide-react'
 import {
   CELEBRATION_CATEGORIES,
@@ -9,12 +9,7 @@ import Button from './ui/Button'
 
 function CelebrationCard({ item, index }) {
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ delay: index * 0.03, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+    <article
       className="group relative overflow-hidden rounded-[var(--radius-md)] bg-cream shadow-warm transition-shadow duration-300 hover:shadow-warm-lg"
     >
       <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-square">
@@ -26,7 +21,7 @@ function CelebrationCard({ item, index }) {
           className="h-full w-full object-cover object-center transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-105"
         />
 
-        <span className="absolute left-3 top-3 rounded-full bg-espresso/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-champagne backdrop-blur-sm">
+        <span className="absolute left-3 top-3 rounded-full bg-espresso/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-champagne">
           {item.category}
         </span>
 
@@ -34,7 +29,7 @@ function CelebrationCard({ item, index }) {
           <p className="text-sm leading-snug text-cream">{item.caption}</p>
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -121,11 +116,9 @@ export default function CustomerCelebrations() {
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((item, i) => (
-              <CelebrationCard key={item.id} item={item} index={i} />
-            ))}
-          </AnimatePresence>
+          {filtered.map((item, i) => (
+            <CelebrationCard key={item.id} item={item} index={i} />
+          ))}
         </div>
 
         {filtered.length === 0 && (

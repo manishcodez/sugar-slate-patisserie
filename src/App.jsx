@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
+import { useReducedMotion } from './hooks/useReducedMotion'
 import { CartProvider } from './context/CartContext'
 import { ShopProvider } from './context/ShopContext'
 import { ReviewsProvider } from './context/ReviewsContext'
@@ -41,6 +42,7 @@ function SectionSkeleton() {
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
+  const reducedMotion = useReducedMotion()
   const [ownerDashboard, setOwnerDashboard] = useState(
     () => typeof window !== 'undefined' && window.location.hash === '#admin',
   )
@@ -76,12 +78,12 @@ export default function App() {
                     }>
                       <AdminPanel />
                     </Suspense>
-                  ) : (
+                  ) : loaded ? (
                     <>
                       <a href="#main-content" className="skip-link">
                         Skip to content
                       </a>
-                      <ScrollProgress />
+                      {!reducedMotion && <ScrollProgress />}
                       <Header />
                       <main id="main-content">
                         <Hero />
@@ -105,6 +107,8 @@ export default function App() {
                       <Footer />
                       <BackToTop />
                     </>
+                  ) : (
+                    <div className="min-h-screen bg-cream" aria-hidden="true" />
                   )}
                   <CheckoutFlow />
                   <CustomerPortal />

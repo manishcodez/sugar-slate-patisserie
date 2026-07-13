@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useMagneticHover } from '../../hooks/useMagneticHover'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 const variants = {
   primary:
@@ -25,25 +26,40 @@ export default function Button({
   href,
   ...props
 }) {
+  const reduced = useReducedMotion()
   const magneticProps = useMagneticHover(0.25)
   const base =
-    'inline-flex max-w-full items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-premium)] disabled:opacity-50 disabled:cursor-not-allowed'
+    'inline-flex max-w-full touch-manipulation items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold tracking-wide transition-colors duration-200 ease-[var(--ease-premium)] active:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed'
 
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`
 
-  const motionProps = magnetic
+  if (reduced) {
+    if (href) {
+      return (
+        <a href={href} className={classes} {...props}>
+          {children}
+        </a>
+      )
+    }
+    return (
+      <button type="button" className={classes} {...props}>
+        {children}
+      </button>
+    )
+  }
+
+  const enableMagnetic = magnetic && !reduced
+  const motionProps = enableMagnetic
     ? {
         ref: magneticProps.ref,
         onMouseMove: magneticProps.onMouseMove,
         onMouseLeave: magneticProps.onMouseLeave,
-        whileHover: { scale: 1.03 },
-        whileTap: { scale: 0.97 },
-        transition: { type: 'spring', stiffness: 300, damping: 20 },
+        whileTap: { scale: 0.98 },
+        transition: { duration: 0.15 },
       }
     : {
-        whileHover: { scale: 1.02 },
-        whileTap: { scale: 0.97 },
-        transition: { type: 'spring', stiffness: 300, damping: 20 },
+        whileTap: { scale: 0.98 },
+        transition: { duration: 0.15 },
       }
 
   if (href) {

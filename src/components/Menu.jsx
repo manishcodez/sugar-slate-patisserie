@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { filterAndSortProducts } from '../data/menuItems'
 import { FILTER_TABS } from '../data/shopCategories'
 import { useShop } from '../context/ShopContext'
@@ -84,13 +84,11 @@ export default function Menu() {
             </button>
           </div>
         ) : (
-          <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((item, i) => (
-                <ProductCard key={item.id} product={item} index={i} />
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filtered.map((item, i) => (
+              <ProductCard key={item.id} product={item} index={i} />
+            ))}
+          </div>
         )}
 
         <div className="mt-8 text-center">

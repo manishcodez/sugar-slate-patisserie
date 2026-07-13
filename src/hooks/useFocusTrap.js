@@ -3,6 +3,46 @@ import { useEffect, useRef } from 'react'
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
 
+let scrollLockCount = 0
+let savedScrollY = 0
+let savedBodyStyles = {}
+
+function lockBodyScroll() {
+  if (scrollLockCount === 0) {
+    savedScrollY = window.scrollY
+    const { style } = document.body
+    savedBodyStyles = {
+      overflow: style.overflow,
+      position: style.position,
+      top: style.top,
+      width: style.width,
+      paddingRight: style.paddingRight,
+    }
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+    style.overflow = 'hidden'
+    style.position = 'fixed'
+    style.top = `-${savedScrollY}px`
+    style.width = '100%'
+    if (scrollbarWidth > 0) {
+      style.paddingRight = `${scrollbarWidth}px`
+    }
+  }
+  scrollLockCount++
+}
+
+function unlockBodyScroll() {
+  scrollLockCount = Math.max(0, scrollLockCount - 1)
+  if (scrollLockCount !== 0) return
+
+  const { style } = document.body
+  style.overflow = savedBodyStyles.overflow || ''
+  style.position = savedBodyStyles.position || ''
+  style.top = savedBodyStyles.top || ''
+  style.width = savedBodyStyles.width || ''
+  style.paddingRight = savedBodyStyles.paddingRight || ''
+  window.scrollTo(0, savedScrollY)
+}
+
 export function useFocusTrap(active) {
   const containerRef = useRef(null)
   const previousFocus = useRef(null)
@@ -57,27 +97,7 @@ export function useFocusTrap(active) {
 export function useScrollLock(locked) {
   useEffect(() => {
     if (!locked) return
-
-    const scrollY = window.scrollY
-    const { style } = document.body
-    const prev = {
-      overflow: style.overflow,
-      position: style.position,
-      top: style.top,
-      width: style.width,
-    }
-
-    style.overflow = 'hidden'
-    style.position = 'fixed'
-    style.top = `-${scrollY}px`
-    style.width = '100%'
-
-    return () => {
-      style.overflow = prev.overflow
-      style.position = prev.position
-      style.top = prev.top
-      style.width = prev.width
-      window.scrollTo(0, scrollY)
-    }
+    lockBodyScroll()
+    return () => unlockBodyScroll()
   }, [locked])
 }

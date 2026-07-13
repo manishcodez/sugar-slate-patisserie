@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { BAKERY } from '../data/constants'
 import { HERO_SLIDES } from '../data/heroSlides'
@@ -25,9 +25,6 @@ function FloatingParticle({ delay, x, y, size }) {
 export default function Hero() {
   const reduced = useReducedMotion()
   const [activeSlide, setActiveSlide] = useState(0)
-  const { scrollY } = useScroll()
-  const bgY = useTransform(scrollY, [0, 600], [0, 120])
-  const contentY = useTransform(scrollY, [0, 600], [0, -40])
 
   useEffect(() => {
     if (reduced) return
@@ -44,10 +41,7 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden pb-24 sm:pb-20"
     >
-      <motion.div
-        className="absolute inset-0"
-        style={{ y: reduced ? 0 : bgY }}
-      >
+      <div className="absolute inset-0">
         <AnimatePresence mode="sync" initial={false}>
           <motion.img
             key={currentSlide.src}
@@ -57,19 +51,16 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 1 }}
             animate={{
               opacity: 1,
-              scale: reduced ? 1 : 1.08,
+              scale: 1,
             }}
             exit={{ opacity: 0 }}
             transition={{
-              opacity: { duration: 1.2, ease: 'easeInOut' },
-              scale: reduced
-                ? { duration: 0 }
-                : { duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' },
+              opacity: { duration: 0.8, ease: 'easeInOut' },
             }}
             fetchPriority={activeSlide === 0 ? 'high' : 'low'}
           />
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-espresso/85 via-espresso/65 to-espresso/90" />
 
@@ -85,9 +76,7 @@ export default function Hero() {
       {!reduced && (
         <>
           <FloatingParticle delay={0} x={15} y={20} size={12} />
-          <FloatingParticle delay={1} x={75} y={35} size={8} />
-          <FloatingParticle delay={2} x={45} y={70} size={10} />
-          <FloatingParticle delay={0.5} x={85} y={60} size={6} />
+          <FloatingParticle delay={2} x={75} y={35} size={8} />
         </>
       )}
 
@@ -118,7 +107,6 @@ export default function Hero() {
 
       <motion.div
         className="section-container relative z-10 min-w-0 px-4 py-20 text-center sm:px-5 sm:py-24 md:px-8 md:py-28 lg:py-32"
-        style={{ y: reduced ? 0 : contentY }}
       >
         <motion.p
           className="script-accent mb-2 text-xl text-champagne sm:text-2xl md:text-3xl"
@@ -148,9 +136,9 @@ export default function Hero() {
             <motion.span
               key={i}
               className="inline-block mr-[0.3em]"
-              initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{
+              initial={reduced ? false : { opacity: 0, y: 30, filter: 'blur(8px)' }}
+              animate={reduced ? undefined : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={reduced ? undefined : {
                 delay: 0.5 + i * 0.08,
                 duration: 0.6,
                 ease: [0.22, 1, 0.36, 1],
@@ -182,7 +170,7 @@ export default function Hero() {
           {['Fresh Daily', 'Custom Cakes', 'Varanasi Studio'].map((badge) => (
             <span
               key={badge}
-              className="rounded-full border border-cream/25 bg-cream/10 px-4 py-1.5 text-xs font-medium tracking-wide text-cream/90 backdrop-blur-sm"
+              className="rounded-full border border-cream/25 bg-cream/15 px-4 py-1.5 text-xs font-medium tracking-wide text-cream/90"
             >
               {badge}
             </span>
@@ -228,9 +216,9 @@ export default function Hero() {
 
       <motion.a
         href="#about"
-        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 text-cream/70 sm:block"
-        animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 text-cream/70 md:block"
+        animate={reduced ? undefined : { y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
+        transition={reduced ? undefined : { duration: 2, repeat: Infinity }}
         aria-label="Scroll to about section"
       >
         <ChevronDown size={28} />

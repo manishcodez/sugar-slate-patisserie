@@ -78,8 +78,8 @@ export default function Header() {
   }, [])
 
   const headerBg = scrolled
-    ? 'bg-cream/98 shadow-warm backdrop-blur-md border-b border-rose/30'
-    : 'bg-cream/90 shadow-warm backdrop-blur-md border-b border-cream/50'
+    ? 'bg-cream shadow-warm border-b border-rose/30'
+    : 'bg-cream/95 border-b border-cream/50'
 
   const logoTextClass = 'text-cocoa'
   const navLinkClass = 'text-espresso hover:text-caramel'
@@ -183,7 +183,7 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="min-w-0 flex-1 touch-manipulation bg-espresso/50 backdrop-blur-sm"
+                className="min-w-0 flex-1 touch-manipulation bg-espresso/50"
                 onClick={() => setMobileOpen(false)}
                 aria-label="Close menu"
               />

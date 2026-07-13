@@ -362,7 +362,7 @@ export default function CheckoutFlow() {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[120] bg-espresso/60 backdrop-blur-sm"
+        className="fixed inset-0 z-[120] bg-espresso/65"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

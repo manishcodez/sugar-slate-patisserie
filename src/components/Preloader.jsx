@@ -8,7 +8,7 @@ export default function Preloader({ onComplete }) {
     const timer = setTimeout(() => {
       setVisible(false)
       setTimeout(onComplete, 400)
-    }, 600)
+    }, 350)
     return () => clearTimeout(timer)
   }, [onComplete])
 

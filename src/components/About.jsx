@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { IMAGES } from '../data/images'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import { SectionHeading, ScrollReveal, StaggerChildren, StaggerItem } from './ui/Animations'
 
 const STATS = [
@@ -26,22 +27,23 @@ const ABOUT_PHOTOS = [
 ]
 
 function AboutPhoto({ photo, index }) {
+  const reduced = useReducedMotion()
+
   return (
     <motion.div
       className="group overflow-hidden rounded-[var(--radius-md)] shadow-warm"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduced ? false : { opacity: 0, y: 16 }}
+      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-20px' }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      transition={{ delay: index * 0.08, duration: 0.45 }}
     >
       <div className="relative aspect-[4/3] overflow-hidden">
-        <motion.img
+        <img
           src={photo.src}
           alt={photo.alt}
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover ${reduced ? '' : 'photo-glide'}`}
           loading="lazy"
-          animate={{ scale: [1.05, 1.12, 1.05], x: ['0%', '-3%', '0%'] }}
-          transition={{ duration: 10 + index * 2, repeat: Infinity, ease: 'easeInOut' }}
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-transparent to-transparent" />
         <div className="absolute inset-x-0 bottom-0 px-2 py-2 sm:px-3 sm:py-3">

@@ -1,21 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
+import { useScrollLock } from '../../hooks/useFocusTrap'
 
 export default function Modal({ isOpen, onClose, children, ariaLabel }) {
-  const triggerRef = useRef(null)
+  useScrollLock(isOpen)
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-      const focusable = document.querySelector('[data-modal-content]')
-      focusable?.focus()
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
+    if (!isOpen) return
+    const focusable = document.querySelector('[data-modal-content]')
+    focusable?.focus()
   }, [isOpen])
 
   useEffect(() => {
@@ -39,7 +33,7 @@ export default function Modal({ isOpen, onClose, children, ariaLabel }) {
           aria-label={ariaLabel}
         >
           <motion.div
-            className="absolute inset-0 bg-espresso/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-espresso/70"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -30,13 +30,7 @@ function ProductCard({ product, index = 0 }) {
   }, [addItem, product])
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 28, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ delay: Math.min(index * 0.04, 0.4), duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div>
       <TiltCard className="group relative overflow-hidden rounded-[var(--radius-lg)] border border-blush/50 bg-cream shadow-warm transition-shadow duration-500 hover:shadow-warm-lg">
         <div className="relative overflow-hidden">
           <img
@@ -62,7 +56,7 @@ function ProductCard({ product, index = 0 }) {
           <button
             type="button"
             onClick={handleWishlist}
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/95 shadow-warm backdrop-blur-sm transition-all hover:scale-110"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/95 shadow-warm transition-all hover:scale-110"
             aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           >
             <Heart size={16} className={wishlisted ? 'fill-caramel text-caramel' : 'text-cocoa/50'} />
@@ -122,7 +116,7 @@ function ProductCard({ product, index = 0 }) {
           </div>
         </div>
       </TiltCard>
-    </motion.div>
+    </div>
   )
 }
 
