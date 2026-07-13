@@ -1,0 +1,258 @@
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, ShoppingBag, User } from 'lucide-react'
+import { NAV_LINKS } from '../data/constants'
+import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
+import { useCustomerPortal } from '../context/CustomerPortalContext'
+import { useFocusTrap, useScrollLock } from '../hooks/useFocusTrap'
+import Button from './ui/Button'
+import CartDrawer from './cart/CartDrawer'
+import UserMenu from './auth/UserMenu'
+import AuthModal from './auth/AuthModal'
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [authOpen, setAuthOpen] = useState(false)
+  const [authTab, setAuthTab] = useState('login')
+  const { itemCount, setIsOpen, cartPulse } = useCart()
+  const { user, ready } = useAuth()
+  const { openPortal } = useCustomerPortal()
+
+  const openLogin = () => {
+    setAuthTab('login')
+    setAuthOpen(true)
+  }
+
+  const openSignup = () => {
+    setAuthTab('signup')
+    setAuthOpen(true)
+  }
+  const drawerRef = useFocusTrap(mobileOpen)
+  useScrollLock(mobileOpen)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const openAuth = () => openLogin()
+    window.addEventListener('ss-open-auth', openAuth)
+    return () => window.removeEventListener('ss-open-auth', openAuth)
+  }, [])
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash.startsWith('#reset-password')) return
+    const query = hash.split('?')[1]
+    if (!query) return
+    const params = new URLSearchParams(query)
+    const token = params.get('token')
+    const email = params.get('email')
+    if (token && email) {
+      window.dispatchEvent(new CustomEvent('ss-reset-password', { detail: { token, email } }))
+      setAuthTab('reset')
+      setAuthOpen(true)
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+    }
+  }, [])
+
+  const headerBg = scrolled
+    ? 'bg-cream/98 shadow-warm backdrop-blur-md border-b border-rose/30'
+    : 'bg-cream/90 shadow-warm backdrop-blur-md border-b border-cream/50'
+
+  const logoTextClass = 'text-cocoa'
+  const navLinkClass = 'text-espresso hover:text-caramel'
+
+  return (
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-300 ease-[var(--ease-premium)] ${headerBg}`}
+      >
+        <div className="section-container mx-auto flex h-14 items-center justify-between gap-3 px-4 md:h-[60px] md:px-6 lg:px-8">
+          <a href="#home" className="group flex min-w-0 shrink items-center gap-2">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-caramel/15 font-display text-xs font-semibold text-cocoa transition-colors group-hover:bg-caramel group-hover:text-cream">
+              S&S
+            </span>
+            <span className={`truncate font-display text-base font-semibold transition-colors duration-300 md:text-lg ${logoTextClass}`}>
+              Sugar & Slate
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-5 xl:flex" aria-label="Main navigation">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`relative whitespace-nowrap text-xs font-medium tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full ${navLinkClass}`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
+            {ready && !user && (
+              <div className="hidden items-center gap-1.5 sm:flex">
+                <button
+                  type="button"
+                  onClick={openLogin}
+                  className="rounded-[var(--radius-sm)] px-2.5 py-1.5 text-xs font-semibold text-cocoa transition-colors hover:bg-blush hover:text-caramel"
+                >
+                  Login
+                </button>
+                <Button size="sm" onClick={openSignup} magnetic className="!px-3 !py-1.5 !text-xs">
+                  Sign Up
+                </Button>
+              </div>
+            )}
+
+            <UserMenu />
+
+            <motion.button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-caramel/10 text-cocoa transition-colors hover:bg-caramel hover:text-cream md:h-10 md:w-10"
+              aria-label={`Open cart, ${itemCount} items`}
+              animate={cartPulse ? { scale: [1, 1.15, 1] } : {}}
+              transition={{ duration: 0.4 }}
+            >
+              <ShoppingBag size={18} />
+              <AnimatePresence>
+                {itemCount > 0 && (
+                  <motion.span
+                    key={itemCount}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-caramel px-0.5 text-[9px] font-bold text-cream"
+                  >
+                    {itemCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
+            <Button href="#custom-cakes" magnetic size="sm" className="hidden !px-3 !py-1.5 !text-xs sm:inline-flex">
+              Order Now
+            </Button>
+
+            <button
+              type="button"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] text-cocoa xl:hidden"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+            >
+              <Menu size={22} />
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              ref={drawerRef}
+              className="fixed inset-0 z-[95] xl:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div
+                className="absolute inset-0 bg-espresso/40 backdrop-blur-sm"
+                onClick={() => setMobileOpen(false)}
+                aria-hidden="true"
+              />
+              <motion.div
+                className="absolute right-0 top-0 flex h-full w-[min(100%,300px)] flex-col bg-cream shadow-luxury"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              >
+              <div className="flex h-14 items-center justify-between px-4">
+                <span className="font-display text-base font-semibold text-cocoa">
+                  Sugar & Slate
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-blush text-cocoa"
+                  aria-label="Close menu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 py-4" aria-label="Mobile navigation">
+                {NAV_LINKS.map((link, i) => (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-[var(--radius-sm)] px-3 py-2.5 font-display text-base text-cocoa transition-colors hover:bg-blush hover:text-caramel"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: NAV_LINKS.length * 0.05 }}
+                  className="mt-4 flex flex-col gap-2 border-t border-blush pt-4"
+                >
+                  <Button href="#custom-cakes" onClick={() => setMobileOpen(false)} className="!py-2 !text-sm">
+                    Order Now
+                  </Button>
+                  {ready && user ? (
+                    <Button
+                      variant="secondary"
+                      className="!py-2 !text-sm"
+                      onClick={() => {
+                        setMobileOpen(false)
+                        openPortal('dashboard')
+                      }}
+                    >
+                      <User size={16} className="mr-2 inline" />
+                      My Account
+                    </Button>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Button
+                        variant="secondary"
+                        className="flex-1 !py-2 !text-sm"
+                        onClick={() => {
+                          setMobileOpen(false)
+                          openLogin()
+                        }}
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        className="flex-1 !py-2 !text-sm"
+                        onClick={() => {
+                          setMobileOpen(false)
+                          openSignup()
+                        }}
+                      >
+                        Sign Up
+                      </Button>
+                    </div>
+                  )}
+                </motion.div>
+              </nav>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialTab={authTab} />
+      <CartDrawer />
+    </>
+  )
+}
