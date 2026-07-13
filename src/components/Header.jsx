@@ -95,9 +95,9 @@ export default function Header() {
 
   const menuIconClass = onHero ? 'text-cream' : 'text-cocoa'
 
-  const loginOutlineClass = onHero
-    ? 'rounded-full border-2 border-cream/70 bg-cream/5 text-cream hover:border-cream hover:bg-cream/15'
-    : 'rounded-full border-2 border-caramel/50 bg-transparent text-cocoa hover:border-caramel hover:bg-caramel/10'
+  const loginBtnClass = onHero
+    ? 'text-cream hover:bg-cream/20 hover:text-champagne'
+    : 'text-cocoa hover:bg-blush hover:text-caramel'
 
   return (
     <>
@@ -135,33 +135,23 @@ export default function Header() {
           {/* Account + cart zone */}
           <div className="ml-auto flex shrink-0 items-center gap-2 md:gap-3">
             {ready && !user && (
-              <>
-                <div
-                  className={`hidden h-8 w-px sm:block ${onHero ? 'bg-cream/30' : 'bg-espresso/15'}`}
-                  aria-hidden="true"
-                />
-                <div
-                  className={`header-auth-group hidden items-center gap-2 rounded-full p-1 sm:flex ${
-                    onHero ? 'bg-cream/10' : 'bg-blush/60'
-                  }`}
+              <div className="hidden items-center gap-1.5 sm:flex">
+                <button
+                  type="button"
+                  onClick={openLogin}
+                  className={`rounded-[var(--radius-sm)] px-3 py-2 text-[15px] font-semibold transition-colors xl:px-4 xl:text-base ${loginBtnClass}`}
                 >
-                  <button
-                    type="button"
-                    onClick={openLogin}
-                    className={`px-4 py-2 text-[15px] font-semibold transition-all xl:px-5 xl:text-base ${loginOutlineClass}`}
-                  >
-                    Login
-                  </button>
-                  <Button
-                    size="sm"
-                    onClick={openSignup}
-                    magnetic
-                    className="!rounded-full !px-5 !py-2 !text-[15px] shadow-glow xl:!px-6 xl:!text-base"
-                  >
-                    Sign Up
-                  </Button>
-                </div>
-              </>
+                  Login
+                </button>
+                <Button
+                  size="sm"
+                  onClick={openSignup}
+                  magnetic
+                  className="!px-4 !py-2 !text-[15px] xl:!px-5 xl:!text-base"
+                >
+                  Sign Up
+                </Button>
+              </div>
             )}
 
             <UserMenu />

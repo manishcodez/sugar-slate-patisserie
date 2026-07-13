@@ -4,7 +4,7 @@ import { ChevronDown, Sparkles, ArrowRight, MapPin } from 'lucide-react'
 import { BAKERY } from '../data/constants'
 import { HERO_SLIDES } from '../data/heroSlides'
 import Button from './ui/Button'
-import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useReducedMotion, usePrefersReducedMotion } from '../hooks/useReducedMotion'
 
 const SLIDE_INTERVAL_MS = 6000
 
@@ -19,15 +19,16 @@ const DESKTOP_THUMBS = HERO_SLIDES.slice(0, 6)
 
 export default function Hero() {
   const reduced = useReducedMotion()
+  const prefersReduced = usePrefersReducedMotion()
   const [activeSlide, setActiveSlide] = useState(0)
 
   useEffect(() => {
-    if (reduced) return
+    if (prefersReduced) return
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length)
     }, SLIDE_INTERVAL_MS)
     return () => clearInterval(timer)
-  }, [reduced])
+  }, [prefersReduced])
 
   const currentSlide = HERO_SLIDES[activeSlide]
 
@@ -47,12 +48,12 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 1 }}
             animate={{
               opacity: 1,
-              scale: reduced ? 1 : 1.08,
+              scale: prefersReduced ? 1 : reduced ? 1.04 : 1.08,
             }}
             exit={{ opacity: 0 }}
             transition={{
               opacity: { duration: 1, ease: 'easeInOut' },
-              scale: reduced
+              scale: prefersReduced || reduced
                 ? { duration: 0 }
                 : { duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' },
             }}
@@ -74,15 +75,15 @@ export default function Hero() {
       />
 
       {/* Main content */}
-      <div className="section-container relative z-10 mx-auto flex min-h-[100dvh] w-full min-w-0 flex-1 flex-col justify-center px-4 pb-28 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-5 md:px-8 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-6 lg:pb-20 lg:pt-[5.5rem] xl:gap-8 xl:pt-24">
+      <div className="section-container relative z-10 mx-auto flex min-h-[100dvh] w-full min-w-0 flex-1 flex-col justify-center px-0 pb-28 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-5 md:px-8 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-6 lg:px-8 lg:pb-20 lg:pt-[5.5rem] xl:gap-8 xl:pt-24">
         {/* Left — content panel */}
         <motion.div
-          className="hero-glass mx-auto w-full max-w-xl lg:mx-0 lg:max-w-none"
+          className="hero-glass hero-glass-mobile-full mx-auto w-full lg:mx-0 lg:max-w-none lg:rounded-[var(--radius-xl)]"
           initial={reduced ? false : { opacity: 0, y: 28 }}
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="hero-glass-inner p-5 sm:p-7 md:p-8 lg:p-6 xl:p-8">
+          <div className="hero-glass-inner px-5 py-6 sm:p-7 md:p-8 lg:p-6 xl:p-8">
             <div className="hero-ornament mb-4" aria-hidden="true">
               <span className="hero-ornament-line" />
               <span className="eyebrow !text-champagne/90">Premium Patisserie · Varanasi</span>
@@ -197,8 +198,8 @@ export default function Hero() {
       </div>
 
       {/* Mobile thumbnail strip */}
-      <div className="absolute bottom-20 left-0 right-0 z-10 px-4 lg:hidden">
-        <div className="hero-thumb-scroll mx-auto flex max-w-md gap-2 overflow-x-auto pb-1">
+      <div className="absolute bottom-20 left-0 right-0 z-10 px-0 lg:hidden">
+        <div className="hero-thumb-scroll mx-auto flex w-full gap-2 overflow-x-auto px-4 pb-1 sm:max-w-md sm:px-5">
           {THUMB_SLIDES.map((slide) => {
             const slideIndex = HERO_SLIDES.indexOf(slide)
             const isActive = slideIndex === activeSlide

@@ -96,6 +96,19 @@ h1 {
     inset 0 1px 0 rgba(255, 251, 252, 0.08);
 }
 
+@media (max-width: 767px) {
+  .hero-glass-mobile-full {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--radius-xl);
+    border-left: none;
+    border-right: none;
+    box-shadow:
+      0 8px 32px rgba(43, 27, 20, 0.28),
+      inset 0 1px 0 rgba(255, 251, 252, 0.1);
+  }
+}
+
 @media (min-width: 768px) {
   .hero-glass {
     background: rgba(255, 251, 252, 0.1);
@@ -269,10 +282,6 @@ h1 {
 
 .header-hero-mode .header-nav-link:hover {
   color: var(--color-champagne) !important;
-}
-
-.header-auth-group {
-  border: 1px solid rgba(240, 168, 192, 0.2);
 }
 
 h2 {
