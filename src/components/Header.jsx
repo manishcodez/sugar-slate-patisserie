@@ -119,7 +119,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`header-nav-link relative whitespace-nowrap text-sm font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-[15px] ${
+                className={`header-nav-link relative whitespace-nowrap text-[15px] font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-base ${
                   onHero
                     ? 'text-cream hover:text-champagne'
                     : 'text-espresso hover:text-caramel'
@@ -136,11 +136,11 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openLogin}
-                  className={`rounded-[var(--radius-sm)] px-3 py-2 text-sm font-semibold transition-colors ${loginBtnClass}`}
+                  className={`rounded-[var(--radius-sm)] px-3 py-2 text-[15px] font-semibold transition-colors xl:text-base ${loginBtnClass}`}
                 >
                   Login
                 </button>
-                <Button size="sm" onClick={openSignup} magnetic className="!px-4 !py-2 !text-sm">
+                <Button size="sm" onClick={openSignup} magnetic className="!px-4 !py-2 !text-[15px] xl:!text-base">
                   Sign Up
                 </Button>
               </div>
