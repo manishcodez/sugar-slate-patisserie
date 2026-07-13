@@ -2,7 +2,7 @@ export const FOUNDER = {
   name: 'Rupanjali Kumari',
   brand: 'CodeWithRupanjali',
   developerRole: 'Website Developer',
-  developerTagline: 'Aspiring Software Developer | AI Enthusiast | Programmer',
+  developerTagline: 'Software Developer | AI Enthusiast | Programmer | Full-Stack & UI',
   email: 'rupanjalikumari264@gmail.com',
   /** Add GF's real WhatsApp number when ready, e.g. '+91 98XXXXXXXX' */
   phone: '',
