@@ -11,8 +11,8 @@ function health(_req, res) {
 app.get('/', health)
 app.get('/api/health', health)
 
-app.listen(PORT, () => {
-  console.log(`[bootstrap] health check live on port ${PORT}`)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`[bootstrap] health check live on 0.0.0.0:${PORT}`)
   loadApplication(app).catch((err) => {
     console.error('[fatal] failed to load application:', err)
     process.exit(1)
