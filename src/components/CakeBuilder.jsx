@@ -157,10 +157,10 @@ function OrderSummary({ form, estimatedPrice }) {
   const selectedAddons = ADDONS.filter((a) => form.addons.includes(a.id))
 
   return (
-    <div className="rounded-[var(--radius-md)] bg-blush/50 p-5">
-      <h4 className="font-display text-lg text-cocoa mb-4">Order Summary</h4>
+    <div className="rounded-[var(--radius-md)] bg-blush/50 p-4 sm:p-5">
+      <h4 className="font-display text-base text-cocoa mb-3 sm:text-lg sm:mb-4">Order Summary</h4>
       <dl className="space-y-2 text-sm">
-        {occasion && <div className="flex justify-between"><dt className="text-espresso/60">Occasion</dt><dd>{occasion.label}</dd></div>}
+        {occasion && <div className="flex justify-between gap-3"><dt className="shrink-0 text-espresso/60">Occasion</dt><dd className="min-w-0 text-right">{occasion.label}</dd></div>}
         {shape && <div className="flex justify-between"><dt className="text-espresso/60">Shape</dt><dd>{shape.label}</dd></div>}
         {size && <div className="flex justify-between"><dt className="text-espresso/60">Size</dt><dd>{size.label}</dd></div>}
         {weight && (
@@ -199,7 +199,7 @@ function OrderSummary({ form, estimatedPrice }) {
       </dl>
       <div className="mt-4 border-t border-caramel/20 pt-4">
         <p className="text-sm text-espresso/60">Estimated Price</p>
-        <p className="font-display text-2xl text-caramel">
+        <p className="font-display text-xl text-caramel sm:text-2xl">
           ₹{estimatedPrice.min.toLocaleString('en-IN')} – ₹{estimatedPrice.max.toLocaleString('en-IN')}
         </p>
       </div>
@@ -463,7 +463,7 @@ export default function CakeBuilder() {
           </div>
         </div>
 
-        <div className="grid gap-8 pb-24 lg:grid-cols-3 lg:pb-0">
+        <div className="grid gap-8 pb-32 lg:grid-cols-3 lg:pb-0">
           <div className="lg:col-span-2">
             <AnimatePresence mode="wait">
               <motion.div
@@ -864,17 +864,22 @@ export default function CakeBuilder() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="mt-8 flex items-center justify-between">
-              <Button variant="secondary" onClick={back} disabled={step === 0} className="flex items-center gap-1">
+            <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:justify-between">
+              <Button variant="secondary" size="sm" onClick={back} disabled={step === 0} className="flex w-full items-center justify-center gap-1 sm:w-auto">
                 <ChevronLeft size={18} /> Back
               </Button>
               {step < STEPS.length - 1 ? (
-                <Button onClick={next} className="flex items-center gap-1" magnetic>
+                <Button size="sm" onClick={next} className="flex w-full items-center justify-center gap-1 sm:w-auto" magnetic>
                   Continue <ChevronRight size={18} />
                 </Button>
               ) : (
-                <Button onClick={submit} magnetic disabled={submitting}>
-                  {submitting ? 'Submitting...' : 'Submit Custom Order Request'}
+                <Button onClick={submit} size="sm" magnetic disabled={submitting} className="w-full !px-4 !py-2.5 !text-sm sm:w-auto">
+                  {submitting ? 'Submitting...' : (
+                    <>
+                      <span className="sm:hidden">Submit Order</span>
+                      <span className="hidden sm:inline">Submit Custom Order Request</span>
+                    </>
+                  )}
                 </Button>
               )}
             </div>
@@ -898,7 +903,7 @@ export default function CakeBuilder() {
         {sectionInView && (
           <button
             type="button"
-            className="fixed bottom-20 left-4 right-4 z-40 rounded-full bg-caramel py-3 text-center font-semibold text-cream shadow-warm-lg lg:hidden"
+            className="fixed bottom-[max(5.5rem,env(safe-area-inset-bottom))] left-4 right-4 z-40 rounded-full bg-caramel px-4 py-2.5 text-center text-sm font-semibold text-cream shadow-warm-lg lg:hidden"
             onClick={() => setSummaryOpen(!summaryOpen)}
           >
             View Order Summary ({estimatedPrice.min > 0 ? `₹${estimatedPrice.min.toLocaleString('en-IN')}+` : '—'})

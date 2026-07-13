@@ -82,7 +82,7 @@ function FooterNewsletter() {
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-br from-espresso via-cocoa to-pink-deep text-cream/80">
+    <footer className="relative overflow-hidden bg-gradient-to-br from-espresso via-cocoa to-pink-deep text-cream">
       <div
         className="pointer-events-none absolute inset-0 opacity-30"
         style={{
@@ -94,7 +94,7 @@ export default function Footer() {
       <div className="section-container relative z-10 section-padding mx-auto">
         <FooterNewsletter />
 
-        <div className="grid gap-10 pt-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 border-t border-cream/10 pt-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-4 lg:pt-10">
           <div>
             <div className="mb-5 flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-sm)] bg-caramel/20 font-display text-sm font-semibold text-champagne ring-1 ring-champagne/30">
@@ -102,10 +102,10 @@ export default function Footer() {
               </span>
               <div>
                 <span className="font-display text-lg text-cream">Sugar & Slate</span>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-cream/50">Patisserie</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-cream/80">Patisserie</p>
               </div>
             </div>
-            <p className="text-sm leading-relaxed text-cream/60">
+            <p className="text-sm leading-relaxed text-cream/90">
               {BAKERY.tagline}
             </p>
             <div className="mt-5 flex gap-2.5">
@@ -125,8 +125,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-cream">Quick Links</h4>
-            <ul className="space-y-2.5 text-sm">
+            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Quick Links</h4>
+            <ul className="space-y-2.5 text-sm text-cream/90">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
@@ -142,8 +142,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-cream">Visit Us</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Visit Us</h4>
+            <ul className="space-y-3 text-sm text-cream/90">
               <li className="flex items-start gap-2.5">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-champagne" />
                 <span className="min-w-0 break-words">{BAKERY.address}</span>
@@ -156,8 +156,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-cream">Contact</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Contact</h4>
+            <ul className="space-y-3 text-sm text-cream/90">
               <li className="flex items-start gap-2.5">
                 <Mail size={16} className="mt-0.5 shrink-0 text-champagne" />
                 <a href={`mailto:${BAKERY.email}`} className="min-w-0 break-all transition-colors hover:text-champagne">
@@ -174,12 +174,12 @@ export default function Footer() {
       </div>
 
       <div className="relative z-10 border-t border-cream/10">
-        <div className="section-container mx-auto flex flex-col items-center gap-5 px-5 py-6 text-center text-xs text-cream/50 md:px-8">
+        <div className="section-container mx-auto flex flex-col items-center gap-5 px-5 py-6 text-center text-sm text-cream/80 md:px-8">
           <div>
-            <p className="font-medium text-cream/80">
+            <p className="font-medium text-cream">
               Founded by <span className="text-champagne">{FOUNDER.name}</span>
             </p>
-            <p className="mt-1 text-cream/45">
+            <p className="mt-1 text-cream/75">
               {FOUNDER.title} · {FOUNDER.brand}
             </p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm">

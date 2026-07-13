@@ -63,19 +63,19 @@ export default function About() {
 
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <ScrollReveal direction="left">
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
+            <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-2 sm:gap-3 md:gap-4">
               {ABOUT_PHOTOS.map((photo, i) => (
-                <CurtainReveal key={photo.alt} delay={i * 0.1} className="group overflow-hidden rounded-[var(--radius-md)] shadow-warm">
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                <CurtainReveal key={photo.alt} delay={i * 0.08} className="group overflow-hidden rounded-[var(--radius-sm)] shadow-warm sm:rounded-[var(--radius-md)]">
+                  <div className="relative aspect-square overflow-hidden sm:aspect-[4/3]">
                     <img
                       src={photo.src}
                       alt={photo.alt}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent opacity-80" />
-                    <div className="absolute inset-x-0 bottom-0 px-3 py-3">
-                      <p className="text-xs font-semibold tracking-wider text-cream md:text-sm">{photo.label}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-transparent to-transparent opacity-90" />
+                    <div className="absolute inset-x-0 bottom-0 px-1.5 py-1.5 sm:px-3 sm:py-3">
+                      <p className="text-[9px] font-semibold leading-tight tracking-wide text-cream sm:text-xs md:text-sm">{photo.label}</p>
                     </div>
                   </div>
                 </CurtainReveal>
