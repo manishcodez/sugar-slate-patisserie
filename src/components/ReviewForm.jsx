@@ -109,7 +109,7 @@ export default function ReviewForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full rounded-[var(--radius-sm)] border border-blush bg-cream px-4 py-2.5 outline-none focus:border-caramel"
-                placeholder="Priya S."
+                placeholder="Enter your name"
               />
             </div>
             <div>
