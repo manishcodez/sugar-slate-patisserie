@@ -18,8 +18,6 @@ import productsRoutes from './routes/products.js'
 import loyaltyRoutes from './routes/loyalty.js'
 import paymentsRoutes from './routes/payments.js'
 
-initDatabase()
-
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.includes('change-this')) {
   console.warn('[security] WARNING: Set a strong JWT_SECRET in server/.env before production!')
 }
@@ -66,4 +64,22 @@ app.use((_req, res) => {
 app.listen(PORT, () => {
   console.log(`Sugar & Slate API running at http://localhost:${PORT}/api`)
   console.log(`Health check: http://localhost:${PORT}/api/health`)
+  try {
+    console.log('[startup] initializing database...')
+    initDatabase()
+    console.log('[startup] database ready')
+  } catch (err) {
+    console.error('[startup] database init failed:', err)
+    process.exit(1)
+  }
+})
+
+process.on('uncaughtException', (err) => {
+  console.error('[fatal] uncaught exception:', err)
+  process.exit(1)
+})
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[fatal] unhandled rejection:', reason)
+  process.exit(1)
 })

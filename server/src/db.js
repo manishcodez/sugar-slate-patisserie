@@ -1,4 +1,3 @@
-import { DatabaseSync } from 'node:sqlite'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -7,14 +6,30 @@ import { SEED_PRODUCTS } from './data/seedProducts.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+async function openDatabase(dbPath) {
+  try {
+    const { default: Database } = await import('better-sqlite3')
+    const db = new Database(dbPath)
+    db.pragma('journal_mode = WAL')
+    db.pragma('foreign_keys = ON')
+    console.log('[db] using better-sqlite3')
+    return db
+  } catch {
+    const { DatabaseSync } = await import('node:sqlite')
+    const db = new DatabaseSync(dbPath)
+    db.exec('PRAGMA journal_mode = WAL')
+    db.exec('PRAGMA foreign_keys = ON')
+    console.log('[db] using node:sqlite (dev fallback)')
+    return db
+  }
+}
+
 const dbPath = process.env.DATABASE_PATH
   || path.join(__dirname, '..', 'data', 'sugar-slate.db')
 
 fs.mkdirSync(path.dirname(dbPath), { recursive: true })
 
-const db = new DatabaseSync(dbPath)
-db.exec('PRAGMA journal_mode = WAL')
-db.exec('PRAGMA foreign_keys = ON')
+const db = await openDatabase(dbPath)
 
 export function initDatabase() {
   db.exec(`
