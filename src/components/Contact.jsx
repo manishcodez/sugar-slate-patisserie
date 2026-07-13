@@ -139,10 +139,10 @@ export default function Contact() {
     }
   }
 
-  const founderCards = [
+  const devCards = [
     { icon: Mail, label: 'Email', value: FOUNDER.email, href: `mailto:${FOUNDER.email}`, copyText: FOUNDER.email, isLucide: true },
     { icon: GitHubIcon, label: 'GitHub', value: 'CodeWithRupanjali', href: FOUNDER.github, copyText: FOUNDER.github, isLucide: false },
-    { icon: LinkedInIcon, label: 'LinkedIn', value: 'Rupanjali Kumari', href: FOUNDER.linkedin, copyText: FOUNDER.linkedin, isLucide: false },
+    { icon: LinkedInIcon, label: 'LinkedIn', value: 'CodeWithRupanjali', href: FOUNDER.linkedin, copyText: FOUNDER.linkedin, isLucide: false },
   ]
 
   return (
@@ -315,13 +315,13 @@ export default function Contact() {
 
               <div className="min-w-0">
                 <h3 className="font-display text-base text-cocoa mb-1 sm:text-lg">
-                  <span className="script-accent">{FOUNDER.name}</span>
+                  Website Developer
                 </h3>
                 <p className="mb-3 text-sm text-espresso/70">
-                  {FOUNDER.title} · {FOUNDER.brand}
+                  {FOUNDER.brand}
                 </p>
                 <div className="space-y-3">
-                  {founderCards.map((card) => (
+                  {devCards.map((card) => (
                     <DevContactCard key={card.label} {...card} onCopied={showToast} />
                   ))}
                 </div>

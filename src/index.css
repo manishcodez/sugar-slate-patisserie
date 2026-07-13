@@ -252,6 +252,25 @@ button {
   color: rgba(61, 26, 46, 0.35);
 }
 
+/* ── Footer section headings ── */
+.footer-heading {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-champagne);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .footer-heading {
+    font-size: 1.125rem;
+  }
+}
+
 /* ── Grain texture overlay ── */
 .grain-overlay::after {
   content: "";

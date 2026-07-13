@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { IMAGES } from '../data/images'
-import { FOUNDER } from '../data/constants'
-import { SectionHeading, CurtainReveal, ScrollReveal, StaggerChildren, StaggerItem } from './ui/Animations'
+import { SectionHeading, ScrollReveal, StaggerChildren, StaggerItem } from './ui/Animations'
 
 const STATS = [
   { value: 4, suffix: '+', label: 'Years of Craft', icon: '✦' },
@@ -25,6 +24,33 @@ const ABOUT_PHOTOS = [
   { src: IMAGES.about3, alt: 'Kashi Vishwanath Temple, Varanasi', label: 'Kashi Vishwanath' },
   { src: IMAGES.about4, alt: 'Varanasi Ghats on the Ganges at sunset', label: 'Varanasi Ghats' },
 ]
+
+function AboutPhoto({ photo, index }) {
+  return (
+    <motion.div
+      className="group overflow-hidden rounded-[var(--radius-md)] shadow-warm"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <motion.img
+          src={photo.src}
+          alt={photo.alt}
+          className="h-full w-full object-cover"
+          loading="lazy"
+          animate={{ scale: [1.05, 1.12, 1.05], x: ['0%', '-3%', '0%'] }}
+          transition={{ duration: 10 + index * 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-transparent to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 px-2 py-2 sm:px-3 sm:py-3">
+          <p className="text-[10px] font-semibold tracking-wide text-cream sm:text-xs md:text-sm">{photo.label}</p>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
 
 function AnimatedCounter({ value, suffix }) {
   const ref = useRef(null)
@@ -63,22 +89,9 @@ export default function About() {
 
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <ScrollReveal direction="left">
-            <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-2 sm:gap-3 md:gap-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
               {ABOUT_PHOTOS.map((photo, i) => (
-                <CurtainReveal key={photo.alt} delay={i * 0.08} className="group overflow-hidden rounded-[var(--radius-sm)] shadow-warm sm:rounded-[var(--radius-md)]">
-                  <div className="relative aspect-square overflow-hidden sm:aspect-[4/3]">
-                    <img
-                      src={photo.src}
-                      alt={photo.alt}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-transparent to-transparent opacity-90" />
-                    <div className="absolute inset-x-0 bottom-0 px-1.5 py-1.5 sm:px-3 sm:py-3">
-                      <p className="text-[9px] font-semibold leading-tight tracking-wide text-cream sm:text-xs md:text-sm">{photo.label}</p>
-                    </div>
-                  </div>
-                </CurtainReveal>
+                <AboutPhoto key={photo.alt} photo={photo} index={i} />
               ))}
             </div>
           </ScrollReveal>
@@ -88,13 +101,13 @@ export default function About() {
               <p className="text-lg leading-relaxed">
                 Sugar & Slate Patisserie was born from a simple belief: that every
                 celebration deserves a centerpiece as extraordinary as the moment
-                itself. Founded by <strong className="text-cocoa">{FOUNDER.name}</strong> in our
-                Mirzamurad studio in Varanasi, our patisserie has grown into a destination
-                for discerning clients who seek the perfect union of Indian celebration
-                culture and refined French technique.
+                itself. From our Mirzamurad studio in Varanasi, we craft cakes and
+                desserts for discerning clients who seek the perfect union of Indian
+                celebration culture and refined French technique.
               </p>
               <p>
-                {FOUNDER.bio}
+                Every order is handcrafted with premium ingredients, thoughtful design,
+                and the warmth of a family-run patisserie rooted in the heart of Varanasi.
               </p>
             </div>
 

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Clock, ArrowRight, Loader2 } from 'lucide-react'
-import { BAKERY, NAV_LINKS, FOUNDER } from '../data/constants'
+import { BAKERY, NAV_LINKS } from '../data/constants'
 import { isValidEmail } from '../utils/validation'
 import { subscribeNewsletterApi } from '../services/api/newsletterApi'
-import { FacebookIcon, PinterestIcon, InstagramIcon, GitHubIcon, LinkedInIcon } from './ui/SocialIcons'
+import { FacebookIcon, PinterestIcon, InstagramIcon } from './ui/SocialIcons'
 
 const bakerySocial = [
   { icon: InstagramIcon, href: BAKERY.social.instagram, label: 'Instagram' },
@@ -82,7 +82,7 @@ function FooterNewsletter() {
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-br from-espresso via-cocoa to-pink-deep text-cream">
+    <footer className="relative overflow-hidden bg-espresso text-cream">
       <div
         className="pointer-events-none absolute inset-0 opacity-30"
         style={{
@@ -125,7 +125,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Quick Links</h4>
+            <h4 className="footer-heading">Quick Links</h4>
             <ul className="space-y-2.5 text-sm text-cream/90">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
@@ -142,7 +142,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Visit Us</h4>
+            <h4 className="footer-heading">Visit Us</h4>
             <ul className="space-y-3 text-sm text-cream/90">
               <li className="flex items-start gap-2.5">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-champagne" />
@@ -156,7 +156,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 font-display text-base font-semibold text-cream sm:text-lg">Contact</h4>
+            <h4 className="footer-heading">Contact</h4>
             <ul className="space-y-3 text-sm text-cream/90">
               <li className="flex items-start gap-2.5">
                 <Mail size={16} className="mt-0.5 shrink-0 text-champagne" />
@@ -173,40 +173,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-cream/10">
-        <div className="section-container mx-auto flex flex-col items-center gap-5 px-5 py-6 text-center text-sm text-cream/80 md:px-8">
-          <div>
-            <p className="font-medium text-cream">
-              Founded by <span className="text-champagne">{FOUNDER.name}</span>
-            </p>
-            <p className="mt-1 text-cream/75">
-              {FOUNDER.title} · {FOUNDER.brand}
-            </p>
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm">
-              <a
-                href={`mailto:${FOUNDER.email}`}
-                className="inline-flex max-w-full items-center gap-1.5 break-all transition-colors hover:text-champagne"
-              >
-                <Mail size={14} className="shrink-0" /> {FOUNDER.email}
-              </a>
-              <a
-                href={FOUNDER.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
-              >
-                <GitHubIcon size={14} /> GitHub
-              </a>
-              <a
-                href={FOUNDER.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
-              >
-                <LinkedInIcon size={14} /> LinkedIn
-              </a>
-            </div>
-          </div>
+      <div className="relative z-10 border-t border-cream/15">
+        <div className="section-container mx-auto px-5 py-6 text-center text-sm text-cream/80 md:px-8">
           <p>© 2026 Sugar & Slate Patisserie. All Rights Reserved.</p>
         </div>
       </div>
