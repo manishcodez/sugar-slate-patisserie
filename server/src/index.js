@@ -33,6 +33,10 @@ app.use(cors({
 }))
 app.use(express.json({ limit: '10mb' }))
 
+app.get('/', (_req, res) => {
+  res.json({ ok: true, service: 'sugar-slate-api', time: new Date().toISOString() })
+})
+
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, service: 'sugar-slate-api', time: new Date().toISOString() })
 })
@@ -62,15 +66,19 @@ app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' })
 })
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Sugar & Slate API running on 0.0.0.0:${PORT}/api`)
-  console.log(`Health check: http://0.0.0.0:${PORT}/api/health`)
+const server = app.listen(PORT, () => {
+  console.log(`Sugar & Slate API running on port ${PORT}`)
+  console.log(`Health check: /api/health`)
+})
+
+setImmediate(() => {
   try {
     console.log('[startup] initializing database...')
     initDatabase()
     console.log('[startup] database ready')
   } catch (err) {
     console.error('[startup] database init failed:', err)
+    server.close()
     process.exit(1)
   }
 })
