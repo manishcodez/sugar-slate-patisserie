@@ -90,7 +90,7 @@ export default function Hero() {
               <span className="hero-ornament-line" />
             </div>
 
-            <p className="mb-2 font-display text-2xl font-semibold tracking-[0.04em] text-champagne sm:text-3xl md:text-[2rem]">
+            <p className="hero-brand-title mb-2">
               Sugar & Slate
             </p>
 

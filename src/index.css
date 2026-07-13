@@ -82,6 +82,15 @@ h1 {
   text-shadow: 0 2px 20px rgba(43, 27, 20, 0.45);
 }
 
+.hero-brand-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-champagne);
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
+  line-height: 1.2;
+}
+
 /* ── Hero section ── */
 .hero-section {
   isolation: isolate;
