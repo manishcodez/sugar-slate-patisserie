@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sugar-slate-patisserie
+    runtime: node
+    rootDir: server
+    buildCommand: rm -rf node_modules && npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DATABASE_PATH
+        value: /tmp/sugar-slate.db

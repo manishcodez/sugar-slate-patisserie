@@ -1,4 +1,5 @@
 import 'dotenv/config'
+console.log('[startup] loading sugar-slate-api...')
 import express from 'express'
 import cors from 'cors'
 import { initDatabase } from './db.js'
@@ -61,9 +62,9 @@ app.use((_req, res) => {
   res.status(404).json({ error: 'Not found' })
 })
 
-app.listen(PORT, () => {
-  console.log(`Sugar & Slate API running at http://localhost:${PORT}/api`)
-  console.log(`Health check: http://localhost:${PORT}/api/health`)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Sugar & Slate API running on 0.0.0.0:${PORT}/api`)
+  console.log(`Health check: http://0.0.0.0:${PORT}/api/health`)
   try {
     console.log('[startup] initializing database...')
     initDatabase()

@@ -1,37 +1,57 @@
+import { createRequire } from 'module'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import bcrypt from 'bcryptjs'
 import { SEED_PRODUCTS } from './data/seedProducts.js'
 
+const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-async function openDatabase(dbPath) {
-  try {
-    const { default: Database } = await import('better-sqlite3')
-    const db = new Database(dbPath)
-    db.pragma('journal_mode = WAL')
-    db.pragma('foreign_keys = ON')
-    console.log('[db] using better-sqlite3')
-    return db
-  } catch {
-    const { DatabaseSync } = await import('node:sqlite')
-    const db = new DatabaseSync(dbPath)
-    db.exec('PRAGMA journal_mode = WAL')
-    db.exec('PRAGMA foreign_keys = ON')
-    console.log('[db] using node:sqlite (dev fallback)')
-    return db
-  }
-}
 
 const dbPath = process.env.DATABASE_PATH
   || path.join(__dirname, '..', 'data', 'sugar-slate.db')
 
-fs.mkdirSync(path.dirname(dbPath), { recursive: true })
+let db = null
 
-const db = await openDatabase(dbPath)
+function openDatabaseSync() {
+  fs.mkdirSync(path.dirname(dbPath), { recursive: true })
+
+  try {
+    const Database = require('better-sqlite3')
+    const conn = new Database(dbPath)
+    conn.pragma('journal_mode = WAL')
+    conn.pragma('foreign_keys = ON')
+    console.log('[db] using better-sqlite3')
+    return conn
+  } catch (err) {
+    console.warn('[db] better-sqlite3 unavailable:', err.message)
+  }
+
+  try {
+    const { DatabaseSync } = require('node:sqlite')
+    const conn = new DatabaseSync(dbPath)
+    conn.exec('PRAGMA journal_mode = WAL')
+    conn.exec('PRAGMA foreign_keys = ON')
+    console.log('[db] using node:sqlite (dev fallback)')
+    return conn
+  } catch (err) {
+    console.error('[db] failed to open database:', err.message)
+    throw err
+  }
+}
+
+function getDb() {
+  if (!db) {
+    throw new Error('Database not initialized — call initDatabase() first')
+  }
+  return db
+}
 
 export function initDatabase() {
+  if (!db) {
+    db = openDatabaseSync()
+  }
+
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
@@ -181,17 +201,17 @@ export function initDatabase() {
 
 function migrateSchema() {
   try {
-    db.exec('ALTER TABLE reviews ADD COLUMN approved INTEGER NOT NULL DEFAULT 1')
+    getDb().exec('ALTER TABLE reviews ADD COLUMN approved INTEGER NOT NULL DEFAULT 1')
   } catch {
     /* column exists */
   }
 }
 
 function seedProducts() {
-  const count = db.prepare('SELECT COUNT(*) as c FROM products').get().c
+  const count = getDb().prepare('SELECT COUNT(*) as c FROM products').get().c
   if (count > 0) return
   const now = new Date().toISOString()
-  const insert = db.prepare(`
+  const insert = getDb().prepare(`
     INSERT INTO products (
       id, name, description, price, original_price, category, badge,
       image_key, rating, review_count, popularity, created_at, updated_at
@@ -207,14 +227,14 @@ function seedProducts() {
 
 function seedAdmin() {
   const email = (process.env.SEED_ADMIN_EMAIL || 'admin@sugarslate.com').toLowerCase()
-  const exists = db.prepare('SELECT id FROM users WHERE email = ?').get(email)
+  const exists = getDb().prepare('SELECT id FROM users WHERE email = ?').get(email)
   if (exists) return
 
   const password = process.env.SEED_ADMIN_PASSWORD || 'Admin@2026'
   const hash = bcrypt.hashSync(password, 10)
   const now = new Date().toISOString()
 
-  db.prepare(`
+  getDb().prepare(`
     INSERT INTO users (id, name, email, password_hash, role, phone, created_at)
     VALUES (?, ?, ?, ?, 'admin', '', ?)
   `).run(`admin-${Date.now()}`, process.env.SEED_ADMIN_NAME || 'Sugar & Slate Admin', email, hash, now)
@@ -247,10 +267,15 @@ export function publicUser(row) {
 
 export function createNotification(userId, title, message) {
   if (!userId) return
-  db.prepare(`
+  getDb().prepare(`
     INSERT INTO notifications (id, user_id, title, message, read, created_at)
     VALUES (?, ?, ?, ?, 0, ?)
   `).run(newId('notif'), userId, title, message, new Date().toISOString())
 }
 
-export default db
+export default new Proxy({}, {
+  get(_target, prop) {
+    const value = getDb()[prop]
+    return typeof value === 'function' ? value.bind(getDb()) : value
+  },
+})
