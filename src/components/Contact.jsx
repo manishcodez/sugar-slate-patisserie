@@ -313,14 +313,17 @@ export default function Contact() {
                 </Button>
               </div>
 
-              <div className="min-w-0">
-                <h3 className="font-display text-base text-cocoa mb-1 sm:text-lg">
-                  Website Developer
-                </h3>
-                <p className="mb-3 text-sm text-espresso/70">
-                  {FOUNDER.brand}
+              <div className="min-w-0 rounded-[var(--radius-md)] border border-blush bg-cream p-4 shadow-warm sm:p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-caramel">
+                  {FOUNDER.developerRole}
                 </p>
-                <div className="space-y-3">
+                <h3 className="mt-1 font-display text-xl font-semibold text-cocoa sm:text-2xl">
+                  {FOUNDER.brand}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-espresso/80">
+                  {FOUNDER.developerTagline}
+                </p>
+                <div className="mt-4 space-y-3">
                   {devCards.map((card) => (
                     <DevContactCard key={card.label} {...card} onCopied={showToast} />
                   ))}

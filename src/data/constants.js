@@ -1,8 +1,8 @@
 export const FOUNDER = {
   name: 'Rupanjali Kumari',
-  title: 'Founder & Head Patissier',
   brand: 'CodeWithRupanjali',
-  bio: 'French patisserie technique meets Indian celebration — every cake from her Mirzamurad studio is crafted with love.',
+  developerRole: 'Website Developer',
+  developerTagline: 'Aspiring Software Developer | AI Enthusiast | Programmer',
   email: 'rupanjalikumari264@gmail.com',
   /** Add GF's real WhatsApp number when ready, e.g. '+91 98XXXXXXXX' */
   phone: '',
