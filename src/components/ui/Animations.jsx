@@ -44,7 +44,7 @@ export function SectionHeading({ eyebrow, title, subtitle, className = '', align
   const alignClass = align === 'left' ? 'text-left' : 'text-center'
 
   return (
-    <div className={`mb-12 md:mb-16 ${alignClass} ${className}`}>
+    <div className={`mb-8 min-w-0 sm:mb-12 md:mb-16 ${alignClass} ${className}`}>
       <motion.p
         className="eyebrow mb-3"
         initial={{ opacity: 0, y: 12 }}
@@ -75,7 +75,7 @@ export function SectionHeading({ eyebrow, title, subtitle, className = '', align
       </motion.div>
       {subtitle && (
         <motion.p
-          className={`mt-4 max-w-2xl text-lg leading-relaxed text-espresso/75 ${
+          className={`mt-3 max-w-2xl text-base leading-relaxed text-espresso/75 sm:mt-4 sm:text-lg ${
             align === 'center' ? 'mx-auto' : ''
           }`}
           initial={{ opacity: 0 }}

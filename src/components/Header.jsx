@@ -70,14 +70,14 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-300 ease-[var(--ease-premium)] ${headerBg}`}
+        className={`fixed top-0 left-0 right-0 z-[90] pt-[env(safe-area-inset-top)] transition-all duration-300 ease-[var(--ease-premium)] ${headerBg}`}
       >
-        <div className="section-container mx-auto flex h-14 min-w-0 items-center justify-between gap-2 px-3 sm:gap-3 sm:px-4 md:h-[60px] md:px-6 lg:px-8">
-          <a href="#home" className="group flex min-w-0 shrink items-center gap-2">
+        <div className="section-container mx-auto flex h-14 min-w-0 items-center justify-between gap-1.5 px-3 sm:gap-2 sm:px-4 md:h-[60px] md:px-6 lg:px-8">
+          <a href="#home" className="group flex min-w-0 max-w-[42%] shrink items-center gap-1.5 sm:max-w-none sm:gap-2">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-caramel/15 font-display text-xs font-semibold text-cocoa transition-colors group-hover:bg-caramel group-hover:text-cream">
               S&S
             </span>
-            <span className={`truncate font-display text-base font-semibold transition-colors duration-300 md:text-lg ${logoTextClass}`}>
+            <span className={`hidden truncate font-display text-sm font-semibold transition-colors duration-300 min-[380px]:inline md:text-lg ${logoTextClass}`}>
               Sugar & Slate
             </span>
           </a>
@@ -94,7 +94,7 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
+          <div className="flex shrink-0 items-center gap-1 md:gap-2">
             {ready && !user && (
               <div className="hidden items-center gap-1.5 sm:flex">
                 <button
@@ -135,10 +135,6 @@ export default function Header() {
                 )}
               </AnimatePresence>
             </motion.button>
-
-            <Button href="#custom-cakes" magnetic size="sm" className="hidden !px-3 !py-1.5 !text-xs xl:inline-flex">
-              Order Now
-            </Button>
 
             <button
               type="button"

@@ -41,7 +41,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={logout}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blush text-cocoa transition-colors hover:bg-caramel hover:text-cream md:h-10 md:w-10"
+        className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blush text-cocoa transition-colors hover:bg-caramel hover:text-cream sm:flex md:h-10 md:w-10"
         aria-label="Logout"
         title="Logout"
       >

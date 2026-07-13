@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Clock, AlertCircle, Navigation, Phone } from 'lucide-react'
+import { Mail, MapPin, Clock, AlertCircle, Navigation } from 'lucide-react'
 import { submitContactApi } from '../services/api/contactApi'
 import { BAKERY, FOUNDER, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_DIRECTIONS_URL } from '../data/constants'
 import { GitHubIcon, LinkedInIcon } from './ui/SocialIcons'
@@ -31,7 +31,7 @@ function DevContactCard({ icon: Icon, label, value, href, copyText, onCopied }) 
 
   return (
     <motion.div
-      className="premium-card group p-5"
+      className="premium-card group min-w-0 max-w-full p-4 sm:p-5"
       whileHover={{ y: -2 }}
     >
       <div className="flex items-start gap-4">
@@ -139,14 +139,6 @@ export default function Contact() {
     }
   }
 
-  const bakeryCards = [
-    ...(BAKERY.phone
-      ? [{ icon: Phone, label: 'Phone', value: BAKERY.phone, href: `tel:${BAKERY.phone.replace(/\s/g, '')}`, copyText: BAKERY.phone, isLucide: true }]
-      : []),
-    { icon: Mail, label: 'Email', value: BAKERY.email, href: `mailto:${BAKERY.email}`, copyText: BAKERY.email, isLucide: true },
-    { icon: MapPin, label: 'Studio', value: 'Mirzamurad, Varanasi', href: GOOGLE_MAPS_DIRECTIONS_URL, copyText: BAKERY.address, isLucide: true },
-  ]
-
   const founderCards = [
     { icon: Mail, label: 'Email', value: FOUNDER.email, href: `mailto:${FOUNDER.email}`, copyText: FOUNDER.email, isLucide: true },
     { icon: GitHubIcon, label: 'GitHub', value: 'CodeWithRupanjali', href: FOUNDER.github, copyText: FOUNDER.github, isLucide: false },
@@ -162,7 +154,7 @@ export default function Contact() {
           subtitle="Whether you're planning a Varanasi wedding, corporate event, or an intimate celebration — we'd love to hear from you."
         />
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-2 lg:gap-16">
           <ScrollReveal>
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -286,10 +278,10 @@ export default function Contact() {
           </ScrollReveal>
 
           <ScrollReveal direction="right" delay={0.1}>
-            <div className="space-y-6">
+            <div className="min-w-0 space-y-5 sm:space-y-6">
               <PincodeChecker />
 
-              <div className="premium-card overflow-hidden p-6">
+              <div className="premium-card min-w-0 overflow-hidden p-4 sm:p-6">
                 <h3 className="font-display text-xl text-cocoa mb-4">Visit Our Studio</h3>
                 <div className="space-y-3 text-sm text-espresso/80">
                   <p className="flex items-start gap-3">
@@ -321,9 +313,9 @@ export default function Contact() {
                 </Button>
               </div>
 
-              <div>
-                <h3 className="font-display text-lg text-cocoa mb-1">
-                  <span className="script-accent text-2xl">{FOUNDER.name}</span>
+              <div className="min-w-0">
+                <h3 className="font-display text-base text-cocoa mb-1 sm:text-lg">
+                  <span className="script-accent">{FOUNDER.name}</span>
                 </h3>
                 <p className="mb-3 text-sm text-espresso/70">
                   {FOUNDER.title} · {FOUNDER.brand}
@@ -335,16 +327,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div>
-                <h3 className="font-display text-lg text-cocoa mb-3">
-                  <span className="script-accent text-2xl">Reach</span> Our Studio
-                </h3>
-                <div className="space-y-3">
-                  {bakeryCards.map((card) => (
-                    <DevContactCard key={card.label} {...card} onCopied={showToast} />
-                  ))}
-                </div>
-              </div>
             </div>
           </ScrollReveal>
         </div>

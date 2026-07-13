@@ -27,7 +27,7 @@ export default function Button({
 }) {
   const magneticProps = useMagneticHover(0.25)
   const base =
-    'inline-flex items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-premium)] disabled:opacity-50 disabled:cursor-not-allowed'
+    'inline-flex max-w-full items-center justify-center gap-2 rounded-[var(--radius-sm)] font-semibold tracking-wide transition-all duration-300 ease-[var(--ease-premium)] disabled:opacity-50 disabled:cursor-not-allowed'
 
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`
 

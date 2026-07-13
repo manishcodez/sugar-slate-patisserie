@@ -70,12 +70,14 @@ h4 {
 }
 
 h1 {
-  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-size: clamp(1.75rem, 6.5vw, 4.5rem);
   letter-spacing: -0.02em;
 }
 
 .hero-headline {
   color: var(--color-cream) !important;
+  font-size: clamp(1.65rem, 7vw, 4.5rem) !important;
+  line-height: 1.15 !important;
 }
 
 h2 {
@@ -136,11 +138,18 @@ button {
 /* ── Eyebrow label ── */
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-caramel);
+}
+
+@media (min-width: 480px) {
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
 }
 
 /* ── Script accent ── */
@@ -148,6 +157,8 @@ button {
   font-family: var(--font-script);
   font-weight: 400;
   color: var(--color-champagne);
+  font-size: clamp(1.25rem, 5vw, 2rem);
+  line-height: 1.2;
 }
 
 /* ── Section spacing ── */
@@ -177,6 +188,7 @@ button {
   max-width: 1280px;
   margin: 0 auto;
   width: 100%;
+  min-width: 0;
 }
 
 /* ── Premium pink section backgrounds ── */
@@ -200,13 +212,17 @@ button {
   background: var(--color-cream);
   border: 1px solid rgba(240, 168, 192, 0.4);
   box-shadow: var(--shadow-warm);
+  max-width: 100%;
+  min-width: 0;
   transition: transform 0.35s var(--ease-premium), box-shadow 0.35s var(--ease-premium), border-color 0.35s var(--ease-premium);
 }
 
-.premium-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-warm-lg);
-  border-color: rgba(212, 100, 138, 0.35);
+@media (hover: hover) {
+  .premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-warm-lg);
+    border-color: rgba(212, 100, 138, 0.35);
+  }
 }
 
 .luxury-divider {
@@ -217,6 +233,8 @@ button {
 /* ── Form inputs ── */
 .form-input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(240, 168, 192, 0.5);
   background: var(--color-cream);

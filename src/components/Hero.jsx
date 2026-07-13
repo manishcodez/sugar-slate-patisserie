@@ -42,7 +42,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-svh items-center justify-center overflow-hidden"
+      className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden pb-24 sm:pb-20"
     >
       <motion.div
         className="absolute inset-0"
@@ -117,7 +117,7 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="section-container relative z-10 px-4 py-24 text-center sm:px-5 sm:py-28 md:px-8 md:py-32"
+        className="section-container relative z-10 min-w-0 px-4 py-20 text-center sm:px-5 sm:py-24 md:px-8 md:py-28 lg:py-32"
         style={{ y: reduced ? 0 : contentY }}
       >
         <motion.p
@@ -162,7 +162,7 @@ export default function Hero() {
         </h1>
 
         <motion.p
-          className="mx-auto mt-6 max-w-2xl text-base leading-relaxed !text-cream sm:text-lg md:text-xl"
+          className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed !text-cream sm:mt-6 sm:text-base md:text-lg lg:text-xl"
           style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65)' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,22 +190,22 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="mt-10 flex w-full max-w-md flex-col items-stretch justify-center gap-3 sm:mx-auto sm:max-w-none sm:flex-row sm:items-center sm:gap-4"
+          className="mt-6 flex w-full flex-col items-stretch justify-center gap-2.5 sm:mt-8 sm:max-w-md sm:gap-3 md:mt-10 md:max-w-none md:flex-row md:items-center md:gap-4"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.35, duration: 0.6 }}
         >
-          <Button href="#custom-cakes" magnetic size="lg" className="w-full sm:w-auto">
+          <Button href="#custom-cakes" magnetic size="md" className="w-full md:w-auto lg:!px-8 lg:!py-4 lg:!text-lg">
             Order Custom Cake
           </Button>
-          <Button href="#menu" variant="secondary" size="lg" className="w-full !border-cream !text-cream hover:!bg-cream/20 hover:!text-cream sm:w-auto">
+          <Button href="#menu" variant="secondary" size="md" className="w-full !border-cream !text-cream hover:!bg-cream/20 hover:!text-cream md:w-auto lg:!px-8 lg:!py-4 lg:!text-lg">
             Explore Menu
           </Button>
         </motion.div>
       </motion.div>
 
       <div
-        className="absolute bottom-28 left-1/2 z-10 flex -translate-x-1/2 gap-2 sm:bottom-20"
+        className="absolute bottom-32 left-1/2 z-10 flex -translate-x-1/2 gap-2 sm:bottom-24 md:bottom-20"
         role="tablist"
         aria-label="Hero cake gallery"
       >

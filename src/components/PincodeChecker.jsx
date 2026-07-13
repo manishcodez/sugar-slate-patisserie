@@ -21,7 +21,7 @@ export default function PincodeChecker({ compact = false, onResult }) {
   }
 
   return (
-    <div className={compact ? '' : 'rounded-[var(--radius-md)] border border-blush bg-cream p-5 shadow-warm'}>
+    <div className={compact ? 'min-w-0 max-w-full' : 'min-w-0 max-w-full rounded-[var(--radius-md)] border border-blush bg-cream p-4 shadow-warm sm:p-5'}>
       {!compact && (
         <div className="mb-3 flex items-center gap-2">
           <MapPin size={18} className="text-caramel" />
@@ -31,7 +31,7 @@ export default function PincodeChecker({ compact = false, onResult }) {
       <p className={`text-sm text-espresso/70 ${compact ? 'mb-2' : 'mb-4'}`}>
         Enter your pincode to see if we deliver to your area.
       </p>
-      <div className="flex gap-2">
+      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch">
         <input
           type="text"
           inputMode="numeric"
@@ -44,9 +44,9 @@ export default function PincodeChecker({ compact = false, onResult }) {
           onKeyDown={handleKeyDown}
           placeholder="e.g. 221307"
           aria-label="Enter pincode"
-          className="flex-1 rounded-[var(--radius-sm)] border border-blush bg-cream px-4 py-2.5 outline-none focus:border-caramel"
+          className="min-w-0 flex-1 rounded-[var(--radius-sm)] border border-blush bg-cream px-4 py-2.5 outline-none focus:border-caramel"
         />
-        <Button type="button" onClick={handleCheck} magnetic={!compact}>
+        <Button type="button" onClick={handleCheck} magnetic={!compact} size="sm" className="w-full shrink-0 sm:w-auto">
           Check
         </Button>
       </div>
