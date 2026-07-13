@@ -95,31 +95,33 @@ export default function Header() {
 
   const menuIconClass = onHero ? 'text-cream' : 'text-cocoa'
 
-  const loginBtnClass = onHero
-    ? 'text-cream hover:bg-cream/20 hover:text-champagne'
-    : 'text-cocoa hover:bg-blush hover:text-caramel'
+  const loginOutlineClass = onHero
+    ? 'rounded-full border-2 border-cream/70 bg-cream/5 text-cream hover:border-cream hover:bg-cream/15'
+    : 'rounded-full border-2 border-caramel/50 bg-transparent text-cocoa hover:border-caramel hover:bg-caramel/10'
 
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[90] pt-[env(safe-area-inset-top)] transition-all duration-300 ease-[var(--ease-premium)] ${headerBg}`}
       >
-        <div className="section-container mx-auto flex h-14 min-w-0 items-center justify-between gap-1.5 px-3 sm:gap-2 sm:px-4 md:h-[60px] md:px-6 lg:px-8">
-          <a href="#home" className="group flex min-w-0 max-w-[42%] shrink items-center gap-1.5 sm:max-w-none sm:gap-2">
-            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] font-display text-xs font-semibold transition-colors ${logoBadgeClass}`}>
+        <div className="section-container mx-auto flex h-14 min-w-0 items-center gap-2 px-3 sm:px-4 md:h-[64px] md:px-6 lg:gap-4 lg:px-8">
+          {/* Brand zone */}
+          <a href="#home" className="group flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5">
+            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] font-display text-sm font-semibold transition-colors lg:h-10 lg:w-10 ${logoBadgeClass}`}>
               S&S
             </span>
-            <span className={`hidden truncate font-display text-sm font-semibold transition-colors duration-300 min-[380px]:inline md:text-lg ${logoTextClass}`}>
+            <span className={`hidden truncate font-display text-base font-semibold transition-colors duration-300 min-[380px]:inline md:text-lg lg:text-xl ${logoTextClass}`}>
               Sugar & Slate
             </span>
           </a>
 
-          <nav className="hidden items-center gap-4 lg:flex xl:gap-5" aria-label="Main navigation">
+          {/* Menu zone — centred on laptop */}
+          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 lg:flex xl:gap-6" aria-label="Main navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`header-nav-link relative whitespace-nowrap text-[15px] font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-base ${
+                className={`header-nav-link relative whitespace-nowrap text-[15px] font-medium tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-base ${
                   onHero
                     ? 'text-cream hover:text-champagne'
                     : 'text-espresso hover:text-caramel'
@@ -130,20 +132,36 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1 md:gap-2">
+          {/* Account + cart zone */}
+          <div className="ml-auto flex shrink-0 items-center gap-2 md:gap-3">
             {ready && !user && (
-              <div className="hidden items-center gap-1.5 sm:flex">
-                <button
-                  type="button"
-                  onClick={openLogin}
-                  className={`rounded-[var(--radius-sm)] px-3 py-2 text-[15px] font-semibold transition-colors xl:text-base ${loginBtnClass}`}
+              <>
+                <div
+                  className={`hidden h-8 w-px sm:block ${onHero ? 'bg-cream/30' : 'bg-espresso/15'}`}
+                  aria-hidden="true"
+                />
+                <div
+                  className={`header-auth-group hidden items-center gap-2 rounded-full p-1 sm:flex ${
+                    onHero ? 'bg-cream/10' : 'bg-blush/60'
+                  }`}
                 >
-                  Login
-                </button>
-                <Button size="sm" onClick={openSignup} magnetic className="!px-4 !py-2 !text-[15px] xl:!text-base">
-                  Sign Up
-                </Button>
-              </div>
+                  <button
+                    type="button"
+                    onClick={openLogin}
+                    className={`px-4 py-2 text-[15px] font-semibold transition-all xl:px-5 xl:text-base ${loginOutlineClass}`}
+                  >
+                    Login
+                  </button>
+                  <Button
+                    size="sm"
+                    onClick={openSignup}
+                    magnetic
+                    className="!rounded-full !px-5 !py-2 !text-[15px] shadow-glow xl:!px-6 xl:!text-base"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              </>
             )}
 
             <UserMenu />
