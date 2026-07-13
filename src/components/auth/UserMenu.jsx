@@ -35,7 +35,7 @@ export default function UserMenu() {
           className="flex items-center gap-1 rounded-full bg-caramel/15 px-2.5 py-1.5 text-[11px] font-semibold text-caramel transition-colors hover:bg-caramel hover:text-cream md:text-xs"
           title="Store Dashboard"
         >
-          <Shield size={12} /> Dashboard
+          <Shield size={12} /> <span className="hidden sm:inline">Dashboard</span>
         </a>
       )}
       <button

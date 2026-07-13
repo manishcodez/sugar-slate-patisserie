@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Github, Linkedin, MapPin, Clock, AlertCircle, Navigation, Phone } from 'lucide-react'
+import { Mail, MapPin, Clock, AlertCircle, Navigation, Phone } from 'lucide-react'
 import { submitContactApi } from '../services/api/contactApi'
 import { BAKERY, FOUNDER, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_DIRECTIONS_URL } from '../data/constants'
+import { GitHubIcon, LinkedInIcon } from './ui/SocialIcons'
 import PincodeChecker from './PincodeChecker'
 import { useCart } from '../context/CartContext'
 import { isValidEmail, isValidPhone } from '../utils/validation'
@@ -45,7 +46,7 @@ function DevContactCard({ icon: Icon, label, value, href, copyText, onCopied }) 
             href={href}
             target={href.startsWith('mailto') || href.startsWith('tel') ? undefined : '_blank'}
             rel="noopener noreferrer"
-            className="mt-1 block truncate text-sm font-medium text-cocoa transition-colors hover:text-caramel"
+            className="mt-1 block break-all text-sm font-medium text-cocoa transition-colors hover:text-caramel"
           >
             {value}
           </a>
@@ -148,8 +149,8 @@ export default function Contact() {
 
   const founderCards = [
     { icon: Mail, label: 'Email', value: FOUNDER.email, href: `mailto:${FOUNDER.email}`, copyText: FOUNDER.email, isLucide: true },
-    { icon: Github, label: 'GitHub', value: 'CodeWithRupanjali', href: FOUNDER.github, copyText: FOUNDER.github, isLucide: true },
-    { icon: Linkedin, label: 'LinkedIn', value: 'Rupanjali Kumari', href: FOUNDER.linkedin, copyText: FOUNDER.linkedin, isLucide: true },
+    { icon: GitHubIcon, label: 'GitHub', value: 'CodeWithRupanjali', href: FOUNDER.github, copyText: FOUNDER.github, isLucide: false },
+    { icon: LinkedInIcon, label: 'LinkedIn', value: 'Rupanjali Kumari', href: FOUNDER.linkedin, copyText: FOUNDER.linkedin, isLucide: false },
   ]
 
   return (
@@ -293,7 +294,7 @@ export default function Contact() {
                 <div className="space-y-3 text-sm text-espresso/80">
                   <p className="flex items-start gap-3">
                     <MapPin size={18} className="shrink-0 text-caramel mt-0.5" />
-                    {BAKERY.address}
+                    <span className="min-w-0 break-words">{BAKERY.address}</span>
                   </p>
                   <p className="flex items-start gap-3">
                     <Clock size={18} className="shrink-0 text-caramel mt-0.5" />

@@ -117,11 +117,11 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="section-container relative z-10 px-5 py-32 text-center md:px-8"
+        className="section-container relative z-10 px-4 py-24 text-center sm:px-5 sm:py-28 md:px-8 md:py-32"
         style={{ y: reduced ? 0 : contentY }}
       >
         <motion.p
-          className="script-accent mb-2 text-2xl text-champagne md:text-3xl"
+          className="script-accent mb-2 text-xl text-champagne sm:text-2xl md:text-3xl"
           style={{ textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,7 +141,7 @@ export default function Hero() {
         </motion.p>
 
         <h1
-          className="hero-headline mx-auto max-w-4xl !text-cream"
+          className="hero-headline mx-auto max-w-4xl text-pretty !text-cream"
           style={{ textShadow: '0 2px 24px rgba(0,0,0,0.7), 0 4px 40px rgba(0,0,0,0.5)' }}
         >
           {words.map((word, i) => (
@@ -162,7 +162,7 @@ export default function Hero() {
         </h1>
 
         <motion.p
-          className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed !text-cream md:text-xl"
+          className="mx-auto mt-6 max-w-2xl text-base leading-relaxed !text-cream sm:text-lg md:text-xl"
           style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65)' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,22 +190,22 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="mt-10 flex w-full max-w-md flex-col items-stretch justify-center gap-3 sm:mx-auto sm:max-w-none sm:flex-row sm:items-center sm:gap-4"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.35, duration: 0.6 }}
         >
-          <Button href="#custom-cakes" magnetic size="lg">
+          <Button href="#custom-cakes" magnetic size="lg" className="w-full sm:w-auto">
             Order Custom Cake
           </Button>
-          <Button href="#menu" variant="secondary" size="lg" className="!border-cream !text-cream hover:!bg-cream/20 hover:!text-cream">
+          <Button href="#menu" variant="secondary" size="lg" className="w-full !border-cream !text-cream hover:!bg-cream/20 hover:!text-cream sm:w-auto">
             Explore Menu
           </Button>
         </motion.div>
       </motion.div>
 
       <div
-        className="absolute bottom-20 left-1/2 z-10 flex -translate-x-1/2 gap-2"
+        className="absolute bottom-28 left-1/2 z-10 flex -translate-x-1/2 gap-2 sm:bottom-20"
         role="tablist"
         aria-label="Hero cake gallery"
       >
@@ -228,7 +228,7 @@ export default function Hero() {
 
       <motion.a
         href="#about"
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-cream/70"
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 text-cream/70 sm:block"
         animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 2, repeat: Infinity }}
         aria-label="Scroll to about section"

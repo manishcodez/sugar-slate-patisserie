@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Clock, ArrowRight, Loader2, Phone } from 'lucide-react'
+import { Mail, MapPin, Clock, ArrowRight, Loader2 } from 'lucide-react'
 import { BAKERY, NAV_LINKS, FOUNDER } from '../data/constants'
 import { isValidEmail } from '../utils/validation'
 import { subscribeNewsletterApi } from '../services/api/newsletterApi'
@@ -55,13 +55,13 @@ function FooterNewsletter() {
             ✓ {success}
           </motion.p>
         ) : (
-          <form onSubmit={handleSubmit} className="flex w-full max-w-md gap-2">
+          <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-2 sm:flex-row sm:items-stretch">
             <input
               type="email"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError('') }}
               placeholder="your@email.com"
-              className="flex-1 rounded-[var(--radius-sm)] border border-cream/30 bg-cream/15 px-4 py-2.5 text-sm text-cream placeholder:text-cream/50 outline-none focus:border-champagne"
+              className="min-w-0 flex-1 rounded-[var(--radius-sm)] border border-cream/30 bg-cream/15 px-4 py-2.5 text-sm text-cream placeholder:text-cream/50 outline-none focus:border-champagne"
               aria-label="Newsletter email"
               disabled={loading}
             />
@@ -91,7 +91,7 @@ export default function Footer() {
         aria-hidden="true"
       />
 
-      <div className="section-container relative z-10 section-padding mx-auto px-5 md:px-8">
+      <div className="section-container relative z-10 section-padding mx-auto">
         <FooterNewsletter />
 
         <div className="grid gap-10 pt-10 md:grid-cols-2 lg:grid-cols-4">
@@ -146,7 +146,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-champagne" />
-                <span>{BAKERY.address}</span>
+                <span className="min-w-0 break-words">{BAKERY.address}</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <Clock size={16} className="mt-0.5 shrink-0 text-champagne" />
@@ -159,20 +159,8 @@ export default function Footer() {
             <h4 className="mb-4 font-display text-cream">Contact</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
-                <Phone size={16} className="mt-0.5 shrink-0 text-champagne" />
-                {BAKERY.phone ? (
-                  <a href={`tel:${BAKERY.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-champagne">
-                    {BAKERY.phone}
-                  </a>
-                ) : (
-                  <a href={`mailto:${BAKERY.email}`} className="transition-colors hover:text-champagne">
-                    {BAKERY.email}
-                  </a>
-                )}
-              </li>
-              <li className="flex items-start gap-2.5">
                 <Mail size={16} className="mt-0.5 shrink-0 text-champagne" />
-                <a href={`mailto:${BAKERY.email}`} className="transition-colors hover:text-champagne">
+                <a href={`mailto:${BAKERY.email}`} className="min-w-0 break-all transition-colors hover:text-champagne">
                   {BAKERY.email}
                 </a>
               </li>
@@ -197,9 +185,9 @@ export default function Footer() {
             <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-sm">
               <a
                 href={`mailto:${FOUNDER.email}`}
-                className="inline-flex items-center gap-1.5 transition-colors hover:text-champagne"
+                className="inline-flex max-w-full items-center gap-1.5 break-all transition-colors hover:text-champagne"
               >
-                <Mail size={14} /> {FOUNDER.email}
+                <Mail size={14} className="shrink-0" /> {FOUNDER.email}
               </a>
               <a
                 href={FOUNDER.github}
