@@ -1,26 +1,20 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Sparkles, ArrowRight, MapPin } from 'lucide-react'
 import { BAKERY } from '../data/constants'
 import { HERO_SLIDES } from '../data/heroSlides'
 import Button from './ui/Button'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
-const SLIDE_INTERVAL_MS = 5000
+const SLIDE_INTERVAL_MS = 6000
 
-const headline = 'Cakes Crafted with Love, Designed to Impress'
-const words = headline.split(' ')
+const HERO_STATS = [
+  { value: '3000+', label: 'Cakes Crafted' },
+  { value: '4+', label: 'Years of Art' },
+  { value: '98%', label: 'Happy Clients' },
+]
 
-function FloatingParticle({ delay, x, y, size }) {
-  return (
-    <motion.div
-      className="absolute rounded-full bg-champagne/30 blur-sm"
-      style={{ width: size, height: size, left: `${x}%`, top: `${y}%` }}
-      animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-      transition={{ duration: 6 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
-    />
-  )
-}
+const THUMB_SLIDES = HERO_SLIDES.slice(0, 8)
 
 export default function Hero() {
   const reduced = useReducedMotion()
@@ -39,8 +33,9 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden pb-24 sm:pb-20"
+      className="hero-section relative flex min-h-[100dvh] flex-col overflow-hidden"
     >
+      {/* Background slideshow */}
       <div className="absolute inset-0">
         <AnimatePresence mode="sync" initial={false}>
           <motion.img
@@ -51,177 +46,186 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 1 }}
             animate={{
               opacity: 1,
-              scale: 1,
+              scale: reduced ? 1 : 1.08,
             }}
             exit={{ opacity: 0 }}
             transition={{
-              opacity: { duration: 0.8, ease: 'easeInOut' },
+              opacity: { duration: 1, ease: 'easeInOut' },
+              scale: reduced
+                ? { duration: 0 }
+                : { duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' },
             }}
             fetchPriority={activeSlide === 0 ? 'high' : 'low'}
           />
         </AnimatePresence>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-espresso/85 via-espresso/65 to-espresso/90" />
-
+      {/* Layered overlays — lighter so cakes stay visible */}
+      <div className="absolute inset-0 bg-gradient-to-r from-espresso/75 via-espresso/35 to-espresso/20 lg:from-espresso/80 lg:via-espresso/45 lg:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-espresso/85 via-transparent to-espresso/30" />
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 opacity-60"
         style={{
           background:
-            'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(212,100,138,0.15) 0%, transparent 60%), radial-gradient(ellipse 80% 70% at 50% 45%, rgba(43,27,20,0.7) 0%, rgba(43,27,20,0.5) 45%, transparent 75%)',
+            'radial-gradient(ellipse 55% 45% at 75% 50%, rgba(240,168,192,0.18) 0%, transparent 65%)',
         }}
         aria-hidden="true"
       />
 
-      {!reduced && (
-        <>
-          <FloatingParticle delay={0} x={15} y={20} size={12} />
-          <FloatingParticle delay={2} x={75} y={35} size={8} />
-        </>
-      )}
-
-      <motion.div
-        className="absolute right-4 top-20 z-10 hidden text-right md:block md:right-8 lg:top-24"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-      >
-        <p className="text-xs font-medium text-champagne">{BAKERY.name}</p>
-        <p className="mt-1 text-xs text-cream/70">{BAKERY.hours}</p>
-        {BAKERY.phone ? (
-          <a
-            href={`tel:${BAKERY.phone.replace(/\s/g, '')}`}
-            className="mt-2 block text-sm font-medium text-cream/90 transition-colors hover:text-champagne"
-          >
-            {BAKERY.phone}
-          </a>
-        ) : (
-          <a
-            href={`mailto:${BAKERY.email}`}
-            className="mt-2 block text-sm font-medium text-cream/90 transition-colors hover:text-champagne"
-          >
-            {BAKERY.email}
-          </a>
-        )}
-      </motion.div>
-
-      <motion.div
-        className="section-container relative z-10 min-w-0 px-4 py-20 text-center sm:px-5 sm:py-24 md:px-8 md:py-28 lg:py-32"
-      >
-        <motion.p
-          className="script-accent mb-2 text-xl text-champagne sm:text-2xl md:text-3xl"
-          style={{ textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          Sugar & Slate Patisserie
-        </motion.p>
-
-        <motion.p
-          className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-cream"
-          style={{ textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          Handcrafted Since Day One
-        </motion.p>
-
-        <h1
-          className="hero-headline mx-auto max-w-4xl text-pretty !text-cream"
-          style={{ textShadow: '0 2px 24px rgba(0,0,0,0.7), 0 4px 40px rgba(0,0,0,0.5)' }}
-        >
-          {words.map((word, i) => (
-            <motion.span
-              key={i}
-              className="inline-block mr-[0.3em]"
-              initial={reduced ? false : { opacity: 0, y: 30, filter: 'blur(8px)' }}
-              animate={reduced ? undefined : { opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={reduced ? undefined : {
-                delay: 0.5 + i * 0.08,
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </h1>
-
-        <motion.p
-          className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed !text-cream sm:mt-6 sm:text-base md:text-lg lg:text-xl"
-          style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65)' }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.6 }}
-        >
-          From saffron-kissed sponges and gulab jamun layers to French entremets —
-          we craft premium cakes and mithai-inspired desserts that honour Indian
-          tradition with world-class patisserie artistry.
-        </motion.p>
-
+      {/* Main content */}
+      <div className="section-container relative z-10 mx-auto flex min-h-[100dvh] w-full min-w-0 flex-1 flex-col justify-center px-4 pb-28 pt-[calc(4.5rem+env(safe-area-inset-top))] sm:px-5 md:px-8 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-24 lg:pt-24 xl:gap-14">
+        {/* Left — content panel */}
         <motion.div
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
+          className="hero-glass mx-auto w-full max-w-xl lg:mx-0 lg:max-w-none"
+          initial={reduced ? false : { opacity: 0, y: 28 }}
+          animate={reduced ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          {['Fresh Daily', 'Custom Cakes', 'Varanasi Studio'].map((badge) => (
-            <span
-              key={badge}
-              className="rounded-full border border-cream/25 bg-cream/15 px-4 py-1.5 text-xs font-medium tracking-wide text-cream/90"
-            >
-              {badge}
-            </span>
-          ))}
+          <div className="hero-glass-inner p-5 sm:p-7 md:p-8 lg:p-9">
+            <div className="hero-ornament mb-4" aria-hidden="true">
+              <span className="hero-ornament-line" />
+              <span className="eyebrow !text-champagne/90">Premium Patisserie · Varanasi</span>
+              <span className="hero-ornament-line" />
+            </div>
+
+            <p className="script-accent mb-2 text-2xl text-champagne sm:text-3xl md:text-4xl">
+              Sugar & Slate
+            </p>
+
+            <h1 className="hero-headline mb-3 text-pretty !text-cream sm:mb-4">
+              Cakes Crafted with{' '}
+              <span className="text-champagne">Love</span>, Designed to{' '}
+              <span className="text-champagne">Impress</span>
+            </h1>
+
+            <p className="mb-5 max-w-lg text-sm leading-relaxed text-cream/85 sm:text-base md:text-lg">
+              Indian celebration meets French artistry — saffron sponges, gulab jamun
+              layers, and handcrafted entremets made fresh in our Varanasi studio.
+            </p>
+
+            {/* Stats */}
+            <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
+              {HERO_STATS.map((stat) => (
+                <div key={stat.label} className="hero-stat text-center">
+                  <p className="font-display text-lg font-bold text-champagne sm:text-xl md:text-2xl">
+                    {stat.value}
+                  </p>
+                  <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-wider text-cream/65 sm:text-[10px]">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
+              <Button
+                href="#custom-cakes"
+                size="md"
+                className="hero-cta-primary w-full gap-2 sm:w-auto lg:!px-7 lg:!py-3.5"
+              >
+                <Sparkles size={16} />
+                Order Custom Cake
+              </Button>
+              <Button
+                href="#menu"
+                variant="secondary"
+                size="md"
+                className="hero-cta-secondary w-full gap-2 !border-champagne/60 !text-cream hover:!bg-cream/15 sm:w-auto lg:!px-7 lg:!py-3.5"
+              >
+                Explore Menu
+                <ArrowRight size={16} />
+              </Button>
+            </div>
+
+            <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-cream/60 sm:justify-start sm:text-xs">
+              <MapPin size={12} className="shrink-0 text-champagne" />
+              Mirzamurad, Varanasi · {BAKERY.hours}
+            </p>
+          </div>
         </motion.div>
 
+        {/* Right — desktop showcase */}
         <motion.div
-          className="mt-6 flex w-full flex-col items-stretch justify-center gap-2.5 sm:mt-8 sm:max-w-md sm:gap-3 md:mt-10 md:max-w-none md:flex-row md:items-center md:gap-4"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.35, duration: 0.6 }}
+          className="relative hidden lg:block"
+          initial={reduced ? false : { opacity: 0, x: 32 }}
+          animate={reduced ? undefined : { opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button href="#custom-cakes" magnetic size="md" className="w-full md:w-auto lg:!px-8 lg:!py-4 lg:!text-lg">
-            Order Custom Cake
-          </Button>
-          <Button href="#menu" variant="secondary" size="md" className="w-full !border-cream !text-cream hover:!bg-cream/20 hover:!text-cream md:w-auto lg:!px-8 lg:!py-4 lg:!text-lg">
-            Explore Menu
-          </Button>
-        </motion.div>
-      </motion.div>
+          <div className="hero-showcase-frame">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentSlide.src}
+                src={currentSlide.src}
+                alt={currentSlide.alt}
+                className="hero-showcase-img"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </AnimatePresence>
+            <div className="hero-showcase-badge">
+              <Sparkles size={12} />
+              <span>Signature Creation</span>
+            </div>
+          </div>
+          <p className="mt-4 text-center font-display text-base text-cream/90">
+            {currentSlide.label}
+          </p>
 
-      <div
-        className="absolute bottom-32 left-1/2 z-10 flex -translate-x-1/2 gap-2 sm:bottom-24 md:bottom-20"
-        role="tablist"
-        aria-label="Hero cake gallery"
-      >
-        {HERO_SLIDES.map((slide, i) => (
-          <button
-            key={slide.src}
-            type="button"
-            role="tab"
-            aria-selected={i === activeSlide}
-            aria-label={`Show ${slide.label}`}
-            onClick={() => setActiveSlide(i)}
-            className={`h-2 rounded-full transition-all duration-500 ${
-              i === activeSlide
-                ? 'w-8 bg-champagne'
-                : 'w-2 bg-cream/40 hover:bg-cream/70'
-            }`}
-          />
-        ))}
+          {/* Desktop thumbnails */}
+          <div className="mt-5 flex justify-center gap-2">
+            {THUMB_SLIDES.map((slide, i) => {
+              const slideIndex = HERO_SLIDES.indexOf(slide)
+              const isActive = slideIndex === activeSlide
+              return (
+                <button
+                  key={slide.src}
+                  type="button"
+                  onClick={() => setActiveSlide(slideIndex)}
+                  aria-label={`Show ${slide.label}`}
+                  className={`hero-thumb ${isActive ? 'hero-thumb-active' : ''}`}
+                >
+                  <img src={slide.src} alt="" className="h-full w-full object-cover" />
+                </button>
+              )
+            })}
+          </div>
+        </motion.div>
       </div>
 
+      {/* Mobile thumbnail strip */}
+      <div className="absolute bottom-20 left-0 right-0 z-10 px-4 lg:hidden">
+        <div className="hero-thumb-scroll mx-auto flex max-w-md gap-2 overflow-x-auto pb-1">
+          {THUMB_SLIDES.map((slide) => {
+            const slideIndex = HERO_SLIDES.indexOf(slide)
+            const isActive = slideIndex === activeSlide
+            return (
+              <button
+                key={slide.src}
+                type="button"
+                onClick={() => setActiveSlide(slideIndex)}
+                aria-label={`Show ${slide.label}`}
+                className={`hero-thumb hero-thumb-mobile shrink-0 ${isActive ? 'hero-thumb-active' : ''}`}
+              >
+                <img src={slide.src} alt="" className="h-full w-full object-cover" />
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Scroll hint — desktop */}
       <motion.a
         href="#about"
-        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 text-cream/70 md:block"
-        animate={reduced ? undefined : { y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
-        transition={reduced ? undefined : { duration: 2, repeat: Infinity }}
+        className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-cream/50 md:flex"
+        animate={reduced ? undefined : { y: [0, 6, 0] }}
+        transition={reduced ? undefined : { duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         aria-label="Scroll to about section"
       >
-        <ChevronDown size={28} />
+        <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Discover</span>
+        <ChevronDown size={22} />
       </motion.a>
     </section>
   )

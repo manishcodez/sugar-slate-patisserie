@@ -77,12 +77,30 @@ export default function Header() {
     }
   }, [])
 
+  const onHero = !scrolled
+
   const headerBg = scrolled
     ? 'bg-cream shadow-warm border-b border-rose/30'
-    : 'bg-cream/95 border-b border-cream/50'
+    : 'bg-espresso/25 border-b border-cream/10'
 
-  const logoTextClass = 'text-cocoa'
-  const navLinkClass = 'text-espresso hover:text-caramel'
+  const logoBadgeClass = onHero
+    ? 'bg-cream/15 text-cream group-hover:bg-cream group-hover:text-cocoa'
+    : 'bg-caramel/15 text-cocoa group-hover:bg-caramel group-hover:text-cream'
+
+  const logoTextClass = onHero ? 'text-cream' : 'text-cocoa'
+  const navLinkClass = onHero
+    ? 'text-cream/90 hover:text-champagne'
+    : 'text-espresso hover:text-caramel'
+
+  const iconBtnClass = onHero
+    ? 'bg-cream/15 text-cream hover:bg-cream hover:text-cocoa'
+    : 'bg-caramel/10 text-cocoa hover:bg-caramel hover:text-cream'
+
+  const menuIconClass = onHero ? 'text-cream' : 'text-cocoa'
+
+  const loginBtnClass = onHero
+    ? 'text-cream hover:bg-cream/15 hover:text-champagne'
+    : 'text-cocoa hover:bg-blush hover:text-caramel'
 
   return (
     <>
@@ -91,7 +109,7 @@ export default function Header() {
       >
         <div className="section-container mx-auto flex h-14 min-w-0 items-center justify-between gap-1.5 px-3 sm:gap-2 sm:px-4 md:h-[60px] md:px-6 lg:px-8">
           <a href="#home" className="group flex min-w-0 max-w-[42%] shrink items-center gap-1.5 sm:max-w-none sm:gap-2">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-caramel/15 font-display text-xs font-semibold text-cocoa transition-colors group-hover:bg-caramel group-hover:text-cream">
+            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-sm)] font-display text-xs font-semibold transition-colors ${logoBadgeClass}`}>
               S&S
             </span>
             <span className={`hidden truncate font-display text-sm font-semibold transition-colors duration-300 min-[380px]:inline md:text-lg ${logoTextClass}`}>
@@ -117,7 +135,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openLogin}
-                  className="rounded-[var(--radius-sm)] px-2.5 py-1.5 text-xs font-semibold text-cocoa transition-colors hover:bg-blush hover:text-caramel"
+                  className={`rounded-[var(--radius-sm)] px-2.5 py-1.5 text-xs font-semibold transition-colors ${loginBtnClass}`}
                 >
                   Login
                 </button>
@@ -132,7 +150,7 @@ export default function Header() {
             <motion.button
               type="button"
               onClick={() => setIsOpen(true)}
-              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-caramel/10 text-cocoa transition-colors hover:bg-caramel hover:text-cream md:h-10 md:w-10"
+              className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors md:h-10 md:w-10 ${iconBtnClass}`}
               aria-label={`Open cart, ${itemCount} items`}
               animate={cartPulse ? { scale: [1, 1.15, 1] } : {}}
               transition={{ duration: 0.4 }}
@@ -155,7 +173,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="flex h-9 w-9 shrink-0 touch-manipulation items-center justify-center rounded-[var(--radius-sm)] text-cocoa xl:hidden"
+              className={`flex h-9 w-9 shrink-0 touch-manipulation items-center justify-center rounded-[var(--radius-sm)] xl:hidden ${menuIconClass}`}
               onClick={() => setMobileOpen((open) => !open)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
