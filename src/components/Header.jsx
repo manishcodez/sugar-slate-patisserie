@@ -114,12 +114,12 @@ export default function Header() {
             </span>
           </a>
 
-          <nav className="hidden items-center gap-3 lg:flex xl:gap-4" aria-label="Main navigation">
+          <nav className="hidden items-center gap-4 lg:flex xl:gap-5" aria-label="Main navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`header-nav-link relative whitespace-nowrap text-[11px] font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-xs ${
+                className={`header-nav-link relative whitespace-nowrap text-sm font-semibold tracking-wide transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:-translate-x-1/2 after:bg-champagne after:transition-all after:duration-300 hover:after:w-full xl:text-[15px] ${
                   onHero
                     ? 'text-cream hover:text-champagne'
                     : 'text-espresso hover:text-caramel'
@@ -136,11 +136,11 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openLogin}
-                  className={`rounded-[var(--radius-sm)] px-2.5 py-1.5 text-xs font-semibold transition-colors ${loginBtnClass}`}
+                  className={`rounded-[var(--radius-sm)] px-3 py-2 text-sm font-semibold transition-colors ${loginBtnClass}`}
                 >
                   Login
                 </button>
-                <Button size="sm" onClick={openSignup} magnetic className="!px-3 !py-1.5 !text-xs">
+                <Button size="sm" onClick={openSignup} magnetic className="!px-4 !py-2 !text-sm">
                   Sign Up
                 </Button>
               </div>
